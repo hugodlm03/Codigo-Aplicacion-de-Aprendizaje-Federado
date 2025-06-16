@@ -1,0 +1,11 @@
+run-id = "retailer_region-bagging-ce-off-tf-0p2-le-5-eta-0p1-md-8-ss-0p6"
+strategy = "bagging"
+partitioner = "retailer_region"
+centralised-eval = false
+test-fraction = 0.2
+local-epochs = 5
+
+[params]
+eta = 0.1
+max_depth = 8
+subsample = 0.6

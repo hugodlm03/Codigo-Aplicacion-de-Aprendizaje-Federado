@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "xgboost_comprehensive"
+version = "1.0.0"
+description = "Federated Learning with XGBoost and Flower (Comprehensive Example)"
+license = "Apache-2.0"
+dependencies = [
+  "flwr[simulation]>=1.18.0",
+  "flwr-datasets>=0.5.0",
+  "xgboost>=2.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["xgboost_comprehensive"]
+include = ["xgboost_comprehensive/datos/*.xlsx"]
+
+[tool.flwr.app]
+publisher = "flwrlabs"
+
+[tool.flwr.app.components]
+clientapp = "xgboost_comprehensive.client_app:app"
+serverapp = "xgboost_comprehensive.server_app:app"
+
+[tool.flwr.app.config]
+run-id = ""
+strategy             = "bagging"
+fraction-fit         = 1.0
+fraction-evaluate    = 1.0
+num-server-rounds    = 3
+centralised-eval     = false
+
+partitioner          = "region"
+test-fraction        = 0.2
+seed                 = 42
+centralised-eval-client = false
+local-epochs         = 1
+scaled-lr            = false
+
+[tool.flwr.app.config.params]
+eta               = 0.1
+max_depth         = 8
+subsample         = 1.0
+objective         = "binary:logistic"
+eval_metric       = "auc"
+tree_method       = "hist"
+nthread           = 16
+num_parallel_tree = 1
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 28
+options.backend.client-resources.num-cpus = 2

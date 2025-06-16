@@ -1,0 +1,19 @@
+# Entornos virtuales
+.venv/
+env/
+venv/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Configuración de VSCode
+.vscode/
+
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+flwr_tu/Lib/site-packages/xgboost/lib/xgboost.dll
