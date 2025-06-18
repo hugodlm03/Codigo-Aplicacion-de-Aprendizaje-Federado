@@ -1,0 +1,3 @@
+[submodule "src_rf/fed_rf"]
+	path = src_rf/fed_rf
+	url = https://github.com/ieeta-pt/fed_rf.git
