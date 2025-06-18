@@ -1,0 +1,2 @@
+[console_scripts]
+fed_rf_mk = fed_rf_mk.client:hello_world

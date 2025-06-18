@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: fed_rf_mk
+Version: 0.0.5
+Summary: A federated Random Forest implementation
+Home-page: https://github.com/ieeta-pt/fed_rf
+Author: Alexandre Cotorobai
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10.12
+Description-Content-Type: text/markdown
+Requires-Dist: syft<0.9.6,>=0.9.5
+Requires-Dist: joblib>=1.4.2
+Requires-Dist: matplotlib>=3.9.0
+Requires-Dist: scikit-learn>=1.6.0
+Requires-Dist: numpy>=1.24.4
+Requires-Dist: pandas>=2.2.2
+Requires-Dist: cloudpickle>=3.1.1
+Dynamic: author
+Dynamic: classifier
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

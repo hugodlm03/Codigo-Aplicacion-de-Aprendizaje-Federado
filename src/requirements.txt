@@ -1,23 +1,7 @@
-# === Core numerical stack ===
-numpy==2.2.4
-pandas==2.2.3
-scikit-learn==1.6.1
-scipy==1.15.2
-
-# === Gradient-boosting y Random Forest federado ===
-xgboost==3.0.2
-
-# === Federated Learning framework ===
+datasets==3.1.0
 flwr==1.18.0
-grpcio==1.73.0        # dependencia directa de Flower
-
-# === I/O y datos ===
-openpyxl==3.1.5       # lectura de Excel (Adidas dataset)
-
-# === Visualización y notebooks ===
-matplotlib==3.10.1
-seaborn==0.13.2
-rich==13.9.4          # impresión bonita (opcional)
-
-# === (Opcional) Jupyter entorno interactivo ===
-jupyterlab==4.3.6
+flwr_datasets==0.5.0
+pandas==2.3.0
+questionary==2.1.0
+toml==0.10.2
+xgboost==3.0.2
