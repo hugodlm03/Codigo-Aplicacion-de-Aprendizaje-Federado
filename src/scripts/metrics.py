@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
+# Utilidades para manejar métricas de entrenamiento y evaluación en CSV
 def init_metrics_csv(csv_path: Path) -> None:
     """
     Crea el fichero CSV con cabeceras si no existe.
@@ -35,6 +36,7 @@ def append_round(
             f"{train_time:.3f}"
         ])
 
+# Utilidades para medir el tiempo de ejecución de funciones
 def measure_time(fn, *args, **kwargs) -> Tuple[Any, float]:
     """
     Ejecuta fn(*args, **kwargs) y devuelve (resultado, tiempo_en_segundos).

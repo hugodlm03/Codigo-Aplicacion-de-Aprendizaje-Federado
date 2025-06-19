@@ -129,7 +129,7 @@ class XgbClient(Client):
 
          # Según el método, devolvemos:
         # - "bagging": solo las últimas rondas entrenadas (para agregación en servidor)
-        # - otro (por ejemplo, "cyclic"): el modelo completo
+        #- cyclic: el modelo completo
         if self.train_method == "bagging":
             start = bst_input.num_boosted_rounds() - self.num_local_round
             end = bst_input.num_boosted_rounds()

@@ -14,7 +14,7 @@ CONFIG_DIR = SRC_DIR / "configs"
 RESULTS_DIR = SRC_DIR / "results"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-# Etiquetas amigables para cada nivel de filtrado
+# Etiquetas para cada nivel de filtrado
 LEVEL_LABELS = {
     "partitioner": "Particionador",
     "strategy":    "Estrategia",
@@ -82,7 +82,7 @@ def main():
     to_run = configs if accion.startswith("Ejecutar TODOS") else [choose_config(configs)]
 
     for cfg in to_run:
-        # 1) Leer run-id desde el TOML
+        # Leer run-id desde el TOML
         cfg_dict = toml.loads(cfg.read_text(encoding="utf-8"))
         experiment_id = cfg_dict.get("run-id", cfg.stem)
 
@@ -114,7 +114,7 @@ def main():
         df = pd.read_csv(server_csv)
         exp_df = df[df["experiment"] == experiment_id]
         if exp_df.empty:
-            print(f"⚠️ No hay filas en {server_csv} para run-id='{experiment_id}'")
+            print(f"No hay filas en {server_csv} para run-id='{experiment_id}'")
             continue
 
         # Volcar cada ronda en el CSV local

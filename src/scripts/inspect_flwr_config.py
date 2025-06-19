@@ -11,14 +11,14 @@ if __name__ == "__main__":
 
 import pandas as pd
 
-# Ruta a tu Excel (ajusta según tu estructura real)
+# Ruta a tu Excel
 ruta = "../datos/Adidas US Sales Datasets.xlsx"
-# Si lo tienes en otro sitio pon el path relativo/correcto
+
 
 # Carga el Excel
-df = pd.read_excel(ruta, skiprows=3)  # saltar filas vacías del principio si hace falta
+df = pd.read_excel(ruta, skiprows=3)  # saltar filas vacías 
 
-# ¡Opcional! Si tienes nombres raros de columnas tras limpiar:
+
 # df.columns = [col.strip() for col in df.columns]
 
 # Verifica que tienes las columnas correctas

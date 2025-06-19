@@ -1,44 +1,148 @@
-Descripción del proyecto
+# Aprendizaje Federado con XGBoost y Flower
 
-Un pequeño framework de Aprendizaje Federado usando Flower y XGBoost, pensado para que puedas:
+> **Proyecto final de TFG – Ejemplo completo y adaptable**
 
-- Crear docenas de configuraciones de experimento (variando particiones, estrategias y parámetros).
+Este repositorio muestra cómo entrenar modelos **XGBoost** de forma **federada** (simulada) con la ayuda de
+[**Flower**](https://flower.ai). El objetivo es ofrecer un _framework_ ligero pero extensible que permita
 
-- Lanzar esos experimentos de forma interactiva o todos de golpe.
+* crear cientos de configuraciones de experimento mediante archivos **TOML**;
+* lanzar esos experimentos de manera interactiva o en lote;
+* recopilar y comparar métricas tanto del **servidor** como de los **clientes**;
+* probar estrategias de agregación como **bagging** o **cyclic boosting**;
+* mantener los datos *en origen*, preservando la privacidad de cada partición.
 
-- Recolectar métricas tanto de cada cliente como del servidor central.
 
-- Comparar resultados y aprender qué combinación de parámetros funciona mejor.
+## Requisitos
+* **Python ≥ 3.10**
+* Sistema operativo Windows, macOS o Linux
+* Conexión a Internet para descargar dependencias y datasets públicos
 
--------------------------------
+| Paquete       | Versión mínima |
+|---------------|----------------|
+| `flwr`        | 1.18.0         |
+| `xgboost`     | 2.0.0          |
+| `flwr-datasets` | 0.5.0       |
+| `pandas`      | 2.3.0          |
+| `questionary` | 2.1.0          |
 
-1. Generación de configuraciones
+> **Tip**: todas las dependencias se resuelven automáticamente al instalar el proyecto en modo editable; consulta la sección siguiente.
 
-python scripts/gen_configs.py
+---
 
-2. Ejecución de experimentos
-python scripts/run_experiments.py
+## Instalación
+```bash
+# 1) Clona el repositorio y entra en él
+$ git clone <url-del-repo>
+$ cd Codigo-Aplicacion-de-Aprendizaje-Federado
 
------------------------------------------------------
+# 2) Crea y activa un entorno virtual (opcional pero recomendado)
+$ python -m venv .venv
+$ source .venv/bin/activate      # Linux/Mac
+# .\.venv\Scripts\Activate      # Windows PowerShell
 
-A continuación se describe cómo funciona el enfoque de bagging federado en este proyecto, pasando por la lógica de muestreo, entrenamiento local y agregación de modelos:
+# 3) Instala el proyecto en modo editable (incluye dependencias)
+$ pip install -e .
+```
 
-- Bagging, o bootstrap aggregating, es una técnica de ensamblado que mejora la estabilidad y precisión de los modelos entrenando múltiples instancias en diferentes muestras con reemplazo del conjunto de datos y luego agregando sus predicciones 
+Si prefieres un enfoque tradicional, instala desde `requirements.txt`:
+```bash
+$ pip install -r requirements.txt
+```
 
-- El aprendizaje federado permite que múltiples clientes colaboren en el entrenamiento de un modelo compartido sin intercambiar sus datos brutos, preservando así la privacidad de cada partición local 
+---
 
-- XGBoost es una librería optimizada de gradient boosting que construye un ensamblado de árboles de decisión de forma aditiva, añadiendo en cada iteración nuevos árboles que corrigen los errores de los anteriores 
+## Estructura del repositorio
+```
+.
+├── configs/                 # Archivos TOML (autogenerados) con combinaciones de parámetros
+├── results/                 # CSV de métricas producidos tras los experimentos
+├── scripts/             # CLI: gen_configs, run_experiments, inspect_flwr_config
+├──xgboost_comprehensive/
+│       ├── client_app.py    # Lógica del cliente Flower
+│       ├── server_app.py    # Lógica del servidor Flower
+│       ├── data_loader.py   # Limpieza y particionado del dataset Adidas
+│       ├── task.py          # Particionado basado en HuggingFace (dataset Higgs)
+│       ├── task_adidas.py   # Particionado basado en Adidas (por región, retailer, ciudad)
+│       └── …
+└── README.md                # Este documento
+└── requirements.txt
+```
 
--  En nuestro proyecto, la clase FedXgbBagging de Flower implementa esta estrategia: en cada ronda el servidor selecciona un subconjunto de clientes (determinado por el parámetro fraction_fit) para simular el muestreo bootstrap a nivel de clientes 
+---
 
-- Cada cliente elegido recibe los parámetros globales y un diccionario de configuración con hiperparámetros (learning rate, max_depth, subsample) definidos en los ficheros TOML, y entrena localmente un número fijo de epochs de boosting 
+## Flujo de trabajo rápido
 
-- Tras el entrenamiento local, los clientes devuelven los árboles recién entrenados en lugar de gradientes o pesos, preservando datos y reduciendo el tráfico de comunicación 
+### 1. Generar configuraciones
+Crea todos los archivos **TOML** necesarios para tus experimentos:
+```bash
+$ python src/scripts/gen_configs.py
+```
+Por defecto se exploran distintos valores de _partitioner_, _strategy_, _test‑fraction_, etc.
 
-- El servidor agrega estas actualizaciones concatenando los nuevos árboles a los ya existentes en la instancia global, realizando así un bagging distribuido que reduce la varianza del modelo final 
+### 2. Lanzar experimentos
+Ejecuta **uno** o **todos** los experimentos de la carpeta `configs/` con un sencillo asistente interactivo:
+```bash
+$ python src/scripts/run_experiments.py
+```
+Cada ejecución guarda las métricas globales en `results/<nombre‑config>.csv`.
 
-- Dado que cada cliente aporta subconjuntos distintos de árboles entrenados en particiones diversas, el ensamblado aprovecha múltiples visiones de la distribución de datos, mejorando la robustez frente a datos no IID 
+### 3. Analizar resultados
+Esto no he conseguido que me funcione, pero es la idea.
 
-- Si está activada, la evaluación centralizada calcula la métrica RMSE global sobre un conjunto de test mantenido en el servidor después de cada ronda y registra los resultados en un CSV para seguimiento de experimentos 
+Abre los CSV de `results/` con tu herramienta favorita (Excel, pandas, Tableau…).
+Cada fila incluye:
+* `round`   — número de ronda
+* `rmse`    — métrica de validación global o local
+* `train_time` — duración total del experimento
 
-- En conjunto, el bagging federado con FedXgbBagging combina las ventajas estadísti­cas del bootstrap aggregating con la preservación de privacidad del aprendizaje federado para entrenar un modelo XGBoost distribuido y con varianza reducida
+---
+
+
+
+
+
+## Detalles del dataset
+* **Adidas US Sales** (`datos/Adidas US Sales Datasets.xlsx`)
+  * Limpieza y tipado automático vía `data_loader.py`.
+  * Particionamiento configurable:
+    * `region` — 5 nodos (Oeste, Este, Centro…)
+    * `retailer_region` — 28 nodos
+    * `retailer_city` — 108 nodos
+
+> Cada partición se transforma a `xgb.DMatrix`, manteniendo los datos in‑situ.
+
+---
+
+## Archivos de configuración
+Los archivos **TOML** de `configs/` fusionan parámetros de Flower y de XGBoost.
+Un ejemplo mínimo:
+```toml
+run-id          = "demo"
+strategy        = "bagging"         # o "cycling"
+partitioner     = "retailer_region"
+centralised-eval = true              # eval server‑side
+local-epochs    = 5                 # árboles entrenados por cliente y ronda
+
+[params]
+eta         = 0.1
+max_depth   = 8
+subsample   = 1.0
+```
+Modifica cualquier clave y vuelve a ejecutar el experimento.
+
+---
+
+## Créditos y licenciamiento
+Basado en el ejemplo oficial _Comprehensive XGBoost + Flower_ © Flower Labs. Código bajo licencia **Apache 2.0**.
+
+```
+@article{beutel2020flower,
+  title     = {Flower: A Friendly Federated Learning Research Framework},
+  author    = {Beutel, Daniel J and Topal, Taner and Mathur, Akhil and …},
+  journal   = {arXiv preprint arXiv:2007.14390},
+  year      = {2020}
+}
+```
+
+¡Felices experimentos federados! 🚀
+

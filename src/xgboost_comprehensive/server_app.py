@@ -205,7 +205,7 @@ def config_func(rnd: int) -> Dict[str, str]:
     """
     return {"global_round": str(rnd)}
 
-# === Crear la aplicación del servidor federado ===
+#  Crear la aplicación del servidor federado 
 def server_fn(context: Context) -> ServerAppComponents:
     """
     Función principal que configura y devuelve los componentes del servidor Flower.
@@ -227,7 +227,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     
     num_rounds = int(cfg["num-server-rounds"])
 
-     # Convertir ruta en Path
+    # Convertir ruta en Path
     # Para obtener la raíz del proyecto a partir de src/xgboost_comprehensive
     PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
@@ -295,12 +295,12 @@ def server_fn(context: Context) -> ServerAppComponents:
         )
         client_manager = CyclicClientManager() 
 
-     # 6) Devolver componentes listos para el servidor
+     # Devolver componentes listos para el servidor
     return ServerAppComponents(
         strategy=strategy,
         config=ServerConfig(num_rounds=num_rounds),
         client_manager=client_manager,
     )
 
-# === Instanciar el servidor federado ===
+# Instanciar el servidor federado 
 app = ServerApp(server_fn=server_fn)

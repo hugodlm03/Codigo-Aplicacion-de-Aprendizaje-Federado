@@ -155,9 +155,8 @@ class FLClient:
         check_status_last_code_requests(self.datasites)
         check_status_last_code_requests(self.eval_datasites)
 
-    # ------------------------------------------------------------------
-    # interno: dado el histórico de la época, calcula nuevos pesos
-    # ------------------------------------------------------------------
+
+    # Dado el histórico de la época, calcula nuevos pesos
     def _update_weights(self, metrics, alpha=0.5, eps=1e-6):
         """
         metrics = dict{client: mae}   (sólo de la época actual)
@@ -226,14 +225,14 @@ class FLClient:
             if not tpl_path.exists():
                 raise FileNotFoundError(
                     "No encuentro artefactos/template_cols.json con la plantilla "
-                    "global de columnas.  Ejecútalo en la fase de particiones."
+                    "global de columnas.  Ejecútalo eden la fase de particiones."
                 )
             import json
             self.modelParams["column_template"] = json.loads(tpl_path.read_text())
             print(f"Plantilla global cargado: "
                   f"{len(self.modelParams['column_template'])} columnas")
 
-        # --- Bucle federado  ---
+        #  Bucle federado  
         for epoch in range(self.modelParams["fl_epochs"]):
             print(f"\nEpoch {epoch+1}/{self.modelParams['fl_epochs']}")
 
@@ -410,7 +409,7 @@ def evaluate_global_model(data: DataFrame, dataParams: dict, modelParams: dict) 
     import numpy as np
     import pandas as pd
 
-    def preprocess(data: DataFrame) -> tuple[Dataset, Dataset]:
+    def preprocess(data: pd.DataFrame) -> tuple[Dataset, Dataset]:
 
         # Step 1: Prepare the data for training
         # Drop rows with missing values in Q1
@@ -420,7 +419,7 @@ def evaluate_global_model(data: DataFrame, dataParams: dict, modelParams: dict) 
 
         # Aseguramos que las columnas ignoradas no estén en X y que eliminamos el target
         X = data.drop(dataParams["ignored_columns"] + [dataParams["target"]], axis=1)
-
+        assert "Units Sold" not in X.columns
         # Replace inf/-inf with NaN, cast to float64, drop NaNs
         X = X.replace([np.inf, -np.inf], np.nan).astype(np.float64)
         mask = ~X.isnull().any(axis=1)
@@ -485,7 +484,7 @@ def ml_experiment(data: DataFrame, dataParams: dict, modelParams: dict) -> dict:
     import pandas as pd
 
     
-    # --------- lista blanca de kwargs que acepta RandomForest ----------
+    #  lista blanca de kwargs que acepta RandomForest 
     RF_KWARGS = [
             "max_depth", "max_features", "min_samples_leaf",
             "min_samples_split", "criterion", "bootstrap",
@@ -493,14 +492,14 @@ def ml_experiment(data: DataFrame, dataParams: dict, modelParams: dict) -> dict:
     ]  
 
     
-    def preprocess(data: DataFrame) -> tuple[Dataset, Dataset]:
+    def preprocess(data: pd.DataFrame) -> tuple[Dataset, Dataset]:
 
         #  Eliminar filas sin target
         data = data.dropna(subset=[dataParams["target"]])
         y = data[dataParams["target"]]
 
         X = data.drop(dataParams["ignored_columns"] + [dataParams["target"]], axis=1)
-
+        assert dataParams["target"] not in X.columns, f"Target '{dataParams['target']}' should not be in X columns"
         # Evitamos stratify si la variable objetivo es continua, porque va dar error
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=modelParams["train_size"], random_state=42)
 
