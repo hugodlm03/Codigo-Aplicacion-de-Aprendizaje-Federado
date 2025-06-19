@@ -415,10 +415,11 @@ def evaluate_global_model(data: DataFrame, dataParams: dict, modelParams: dict) 
         # Step 1: Prepare the data for training
         # Drop rows with missing values in Q1
         data = data.dropna(subset=[dataParams["target"]])
-        
-        # Separate features and target variable (Q1)
         y = data[dataParams["target"]]
-        X = data.drop(dataParams["ignored_columns"], axis=1)
+
+
+        # Aseguramos que las columnas ignoradas no estén en X y que eliminamos el target
+        X = data.drop(dataParams["ignored_columns"] + [dataParams["target"]], axis=1)
 
         # Replace inf/-inf with NaN, cast to float64, drop NaNs
         X = X.replace([np.inf, -np.inf], np.nan).astype(np.float64)
@@ -497,7 +498,8 @@ def ml_experiment(data: DataFrame, dataParams: dict, modelParams: dict) -> dict:
         #  Eliminar filas sin target
         data = data.dropna(subset=[dataParams["target"]])
         y = data[dataParams["target"]]
-        X = data.drop(dataParams["ignored_columns"], axis=1)
+
+        X = data.drop(dataParams["ignored_columns"] + [dataParams["target"]], axis=1)
 
         # Evitamos stratify si la variable objetivo es continua, porque va dar error
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=modelParams["train_size"], random_state=42)
