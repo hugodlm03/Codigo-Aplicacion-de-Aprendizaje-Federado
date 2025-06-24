@@ -1,4 +1,4 @@
-run-id = "retailer_region-cycling-ce-on-tf-0p3-le-1-eta-0p05-md-6-ss-1p0"
+run-id = "retailer_region-cycling-ce-on-tf-0p3-le-1-eta-0p05-md-6-ss-1p0_2025-06-24"
 strategy = "cycling"
 partitioner = "retailer_region"
 centralised-eval = true

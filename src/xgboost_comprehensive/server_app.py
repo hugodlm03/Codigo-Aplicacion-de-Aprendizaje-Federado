@@ -67,7 +67,7 @@ from flwr.server.strategy import FedXgbBagging, FedXgbCyclic
 # === Módulos propios del proyecto ===
 from xgboost_comprehensive.task import replace_keys, transform_dataset_to_dmatrix
 from xgboost_comprehensive.data_loader import load_clean_adidas_data
-
+from xgboost_comprehensive.metrics import init_server_csv, append_server_metric
 
 
 class CyclicClientManager(SimpleClientManager):
@@ -129,7 +129,7 @@ class CyclicClientManager(SimpleClientManager):
 
 
 
-def get_evaluate_fn(test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar]):
+def get_evaluate_fn( test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar], results_csv: Path, run_id: str,):
     """
         Genera una función de evaluación centralizada basada en RMSE para el servidor.
 
@@ -143,7 +143,7 @@ def get_evaluate_fn(test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar]):
         Returns:
             Callable: Función de evaluación compatible con Flower (recibe ronda, modelo, config).
     """
-
+    from sklearn.metrics import mean_absolute_error, r2_score
     def evaluate_fn(
         server_round: int, parameters: Parameters, config: Dict[str, Scalar]
     ) -> Optional[tuple[float, Dict[str, Scalar]]]:
@@ -160,12 +160,17 @@ def get_evaluate_fn(test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar]):
             iteration=bst.num_boosted_rounds() - 1,
         )
         # Formato esperado: "validation-rmse:<valor>"
-        rmse = float(ev.split("\t")[1].split(":")[1])
-        # Registrar resultado en un archivo de log local
-        with open("./centralised_eval.txt", "a", encoding="utf-8") as fp:
-            fp.write(f"Round:{server_round},rmse:{rmse}\n")
-        return rmse, {"rmse": rmse}
+        preds = bst.predict(test_dmatrix)
+        labels = test_dmatrix.get_label()
 
+        mae = mean_absolute_error(labels, preds)
+        r2  = r2_score(labels, preds)
+        rmse = float(ev.split("\t")[1].split(":")[1])
+        # Registrar métricas en el CSV local
+        #append_server_metric(results_csv, run_id, server_round, rmse)
+        # Registrar métricas en un CSV Global
+        append_server_metric(results_csv, run_id, server_round, rmse=rmse, mae=mae, r2=r2)
+        
     return evaluate_fn
 
 
@@ -205,7 +210,9 @@ def config_func(rnd: int) -> Dict[str, str]:
     """
     return {"global_round": str(rnd)}
 
-#  Crear la aplicación del servidor federado 
+#  Crear la aplicación del servidor federado
+from pathlib import Path
+from xgboost_comprehensive.metrics import init_server_csv, append_server_metric
 def server_fn(context: Context) -> ServerAppComponents:
     """
     Función principal que configura y devuelve los componentes del servidor Flower.
@@ -218,14 +225,28 @@ def server_fn(context: Context) -> ServerAppComponents:
     """
     cfg = context.run_config
 
+    # Apunta a src/ (donde está el paquete instalado)
+    PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+    # Carpeta nueva para métricas GLOBALES
+    GLOBAL_DIR = PROJECT_ROOT /  "results" / "resultados_globales"
+    GLOBAL_DIR.mkdir(parents=True, exist_ok=True)
+
+    # CSV de métricas GLOBALES
+    results_csv = GLOBAL_DIR / "server_metrics.csv"
+    init_server_csv(results_csv, metrics=["rmse", "mae", "r2"])
+
     num_rounds       = cfg["num-server-rounds"]
     fraction_fit     = cfg["fraction-fit"]
     fraction_eval    = cfg["fraction-evaluate"]
     train_method     = cfg["strategy"]
     raw = cfg.get("params", {})  # diccionario con eta, max_depth...
     centralised_eval = cfg["centralised-eval"]
-    
     num_rounds = int(cfg["num-server-rounds"])
+
+    # Guarda el run-id para etiquetar las filas
+    raw_run_id = context.run_config.get("run-id", "unknown")
+    run_id     = str(raw_run_id)   # ahora Pylance sabe que es un str
 
     # Convertir ruta en Path
     # Para obtener la raíz del proyecto a partir de src/xgboost_comprehensive
@@ -268,7 +289,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Preparar función de evaluación centralizada (solo si está activada)
     evaluate_fn = None
     if centralised_eval and test_dmatrix is not None:
-        evaluate_fn = get_evaluate_fn(test_dmatrix, params)
+          evaluate_fn = get_evaluate_fn(test_dmatrix,params,results_csv,run_id,)
 
     # Definir la estrategia y el client manager
     if train_method == "bagging":

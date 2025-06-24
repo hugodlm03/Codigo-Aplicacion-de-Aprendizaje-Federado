@@ -1,4 +1,4 @@
-run-id = "retailer_region-bagging-ce-on-tf-0p3-le-5-eta-0p1-md-6-ss-0p8"
+run-id = "retailer_region-bagging-ce-on-tf-0p3-le-5-eta-0p1-md-6-ss-0p8_2025-06-24"
 strategy = "bagging"
 partitioner = "retailer_region"
 centralised-eval = true
