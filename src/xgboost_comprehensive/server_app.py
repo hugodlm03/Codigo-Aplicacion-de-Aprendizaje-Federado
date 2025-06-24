@@ -48,6 +48,7 @@ Este código se inspira y adapta del ejemplo oficial de:
 from logging import INFO
 from typing import Dict, List, Optional
 from pathlib import Path
+import time
 # === Librerías externas ===
 import xgboost as xgb
 from datasets import load_dataset  # (Actualmente no usado, se puede eliminar si no se usa)
@@ -128,7 +129,7 @@ class CyclicClientManager(SimpleClientManager):
         return [self.clients[cid] for cid in available_cids]
 
 
-from xgboost_comprehensive.metrics import init_server_csv, append_server_metric
+
 def get_evaluate_fn( test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar], results_csv: Path, run_id: str,):
     """
         Genera una función de evaluación centralizada basada en RMSE para el servidor.
@@ -151,6 +152,8 @@ def get_evaluate_fn( test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar], resul
         print(f"[DEBUG evaluate_fn] round={server_round}, csv={results_csv}")
         if server_round == 0:
             return 0.0, {}
+        # Medir tiempo de evaluación del modelo global en el servidor
+        eval_start = time.perf_counter()
         # Cargar modelo recibido desde los parámetros
         bst = xgb.Booster(params=params)
         for tensor in parameters.tensors:
@@ -167,11 +170,19 @@ def get_evaluate_fn( test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar], resul
         mae = mean_absolute_error(labels, preds)
         r2  = r2_score(labels, preds)
         rmse = float(ev.split("\t")[1].split(":")[1])
-        # Registrar métricas en el CSV local
-        #append_server_metric(results_csv, run_id, server_round, rmse)
         # Registrar métricas en un CSV Global
         print(f"[DEBUG] metrics: rmse={rmse:.4f}, mae={mae:.4f}, r2={r2:.4f}")
-        append_server_metric(results_csv, run_id, server_round, rmse=rmse, mae=mae, r2=r2)
+        eval_time_round = time.perf_counter() - eval_start
+
+        # Derivamos la carpeta de modelos a partir de results_csv
+        models_dir = results_csv.parent / "models"
+        models_dir.mkdir(parents=True, exist_ok=True)
+        model_path = models_dir / f"{run_id}_round_{server_round}.json"
+        bst.save_model(str(model_path))
+
+        # Registrar métricas y tiempos en el CSV
+        append_server_metric(results_csv, run_id, server_round,eval_time_round=eval_time_round,rmse=rmse, mae=mae, r2=r2,)
+        # Calcular tiempo transcurrido para la evaluación
         return rmse, {"rmse": rmse, "mae": mae, "r2": r2}
         
     return evaluate_fn
@@ -214,8 +225,6 @@ def config_func(rnd: int) -> Dict[str, str]:
     return {"global_round": str(rnd)}
 
 #  Crear la aplicación del servidor federado
-from pathlib import Path
-from xgboost_comprehensive.metrics import init_server_csv, append_server_metric
 def server_fn(context: Context) -> ServerAppComponents:
     """
     Función principal que configura y devuelve los componentes del servidor Flower.
@@ -234,6 +243,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Carpeta nueva para métricas GLOBALES
     GLOBAL_DIR = PROJECT_ROOT /  "results" / "resultados_globales"
     GLOBAL_DIR.mkdir(parents=True, exist_ok=True)
+
 
     # CSV de métricas GLOBALES
     results_csv = GLOBAL_DIR / "server_metrics.csv"
@@ -318,7 +328,7 @@ def server_fn(context: Context) -> ServerAppComponents:
             initial_parameters=initial_parameters,
         )
         client_manager = CyclicClientManager() 
-
+    
      # Devolver componentes listos para el servidor
     return ServerAppComponents(
         strategy=strategy,

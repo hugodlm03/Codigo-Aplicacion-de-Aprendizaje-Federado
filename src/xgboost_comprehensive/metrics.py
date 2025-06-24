@@ -48,9 +48,9 @@ from typing import List, Optional
 
 def init_server_csv(path: Path, metrics: Optional[List[str]] = None) -> None:
     if metrics is None:
-        metrics = ["rmse"]
+        metrics = ["rmse", "mae", "r2"]
     print(f"[DEBUG init_server_csv] path={path} metrics={metrics}")
-    header = ["experiment", "round"] + metrics
+    header = ["experiment", "round"] + metrics + ["eval_time_round"]
     path.parent.mkdir(parents=True, exist_ok=True)
     if not path.exists():
         with open(path, "w", newline="", encoding="utf-8") as f:
@@ -61,12 +61,14 @@ def append_server_metric(
     path: Path,
     experiment: str,
     round_idx: int,
-    **metric_values: float,  # eg. rmse=…, mae=…, r2=…
+    eval_time_round: float,
+    **metric_values: float,
 ) -> None:
     print(f"[DEBUG append_server_metric] path={path} experiment={experiment} "f"round={round_idx} values={metric_values}")
+    # orden: experiment, round, <métricas…>, train_time_round, eval_time_round
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        row = [experiment, round_idx] + [metric_values[k] for k in metric_values]
+        row = [experiment, round_idx] + [metric_values[k] for k in metric_values] + [f"{eval_time_round:.3f}"]
         writer.writerow(row)
 

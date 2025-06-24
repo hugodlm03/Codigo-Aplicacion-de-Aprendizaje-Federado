@@ -17,9 +17,18 @@ dependencies = [
   "openpyxl>=3.1.0"
 ]
 
+[tool.hatch.find]
+where = ["src"]
+include = [
+  "xgboost_comprehensive*",
+  "utils*",
+  "datos*",
+]
+
 [tool.hatch.build.targets.wheel]
-packages = ["xgboost_comprehensive"]
-include = ["xgboost_comprehensive/datos/*.xlsx"]
+include = [
+  "datos/*.xlsx",
+]
 
 [tool.flwr.app]
 publisher = "flwrlabs"

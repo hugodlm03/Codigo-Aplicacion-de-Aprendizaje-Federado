@@ -1,0 +1,31 @@
+feature,gain,round
+Retailer ID,226821.765625,1
+Invoice Date,26403.76953125,1
+State,15603.3125,1
+City,11617.435546875,1
+Product,28941.05078125,1
+Price per Unit,38788.15234375,1
+Total Sales,1348326.375,1
+Operating Profit,989240.1875,1
+Operating Margin,104800.8671875,1
+Sales Method,150390.765625,1
+Retailer ID,226821.765625,2
+Invoice Date,13511.5546875,2
+State,15603.3125,2
+City,11617.435546875,2
+Product,28941.05078125,2
+Price per Unit,18737.759765625,2
+Total Sales,813287.375,2
+Operating Profit,807350.4375,2
+Operating Margin,42730.62109375,2
+Sales Method,150390.765625,2
+Retailer ID,226821.765625,3
+Invoice Date,9875.2998046875,3
+State,15603.3125,3
+City,11617.435546875,3
+Product,28941.05078125,3
+Price per Unit,14557.6435546875,3
+Total Sales,705808.0625,3
+Operating Profit,734400.0625,3
+Operating Margin,30316.572265625,3
+Sales Method,150390.765625,3
