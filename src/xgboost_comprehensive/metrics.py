@@ -41,34 +41,32 @@ def append_round(
 
 # ———————————————— CSV GLOBAL ————————————————
 
-def init_server_csv(csv_path: Path, metrics: Optional[List[str]] = None) -> None:
-    """
-    Crea el fichero CSV de métricas globales con cabeceras según la lista 'metrics'.
-    Columnas: experiment, round, <metrics...>
-    """
+# src/xgboost_comprehensive/metrics.py
+import csv
+from pathlib import Path
+from typing import List, Optional
+
+def init_server_csv(path: Path, metrics: Optional[List[str]] = None) -> None:
     if metrics is None:
         metrics = ["rmse"]
+    print(f"[DEBUG init_server_csv] path={path} metrics={metrics}")
     header = ["experiment", "round"] + metrics
-    csv_path.parent.mkdir(parents=True, exist_ok=True)
-    if not csv_path.exists():
-        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists():
+        with open(path, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow(header)
 
-
 def append_server_metric(
-    csv_path: Path,
+    path: Path,
     experiment: str,
     round_idx: int,
-    **metric_values: float,       # ej. rmse=..., mae=..., r2=...
+    **metric_values: float,  # eg. rmse=…, mae=…, r2=…
 ) -> None:
-    """
-    Añade una fila al CSV global con las métricas dadas.
-    metric_values: clave=nombre de la métrica, valor=float.
-    """
-    # Asegurarse de que el header coincide con metric_values.keys()
-    # (opcionalmente, podrías re-inicializar si cambian las métricas)
-    with open(csv_path, "a", newline="", encoding="utf-8") as f:
+    print(f"[DEBUG append_server_metric] path={path} experiment={experiment} "f"round={round_idx} values={metric_values}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         row = [experiment, round_idx] + [metric_values[k] for k in metric_values]
         writer.writerow(row)
+

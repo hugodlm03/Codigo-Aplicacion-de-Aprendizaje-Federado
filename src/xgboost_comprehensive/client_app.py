@@ -56,6 +56,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 # Librerías externas
 import xgboost as xgb
+from xgboost.callback import TrainingCallback
 from flwr.client import Client, ClientApp
 from flwr.common import (
     Code,
@@ -72,6 +73,37 @@ from flwr.common.context import Context
 # Módulos propios
 from xgboost_comprehensive.task_adidas import load_data
 from xgboost_comprehensive.task import replace_keys
+
+class LogTrainRmse(TrainingCallback):
+    """
+    Callback para registrar el RMSE de entrenamiento iteración a iteración.
+    """
+    def __init__(self, path: Path, experiment: str, global_round: int):
+        self.path          = path
+        self.experiment    = experiment
+        self.global_round  = global_round
+        # Inicializa fichero si no existe
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("experiment,global_round,iter,train_rmse\n")
+
+    def after_iteration(self, model, epoch, evals_log):
+        """
+        Se ejecuta justo después de cada iteración de boosting.
+        """
+        try:
+            # Tomamos el primer dataset y su rmse en esta iteración
+            data_name = next(iter(evals_log))
+            rmse      = evals_log[data_name]["rmse"][epoch]
+        except Exception:
+            # Si algo falla, seguimos entrenando (no abortamos)
+            return False
+
+        line = f"{self.experiment},{self.global_round},{epoch+1},{rmse}\n"
+        with open(self.path, "a", encoding="utf-8") as fp:
+            fp.write(line)
+        return False  # seguir entrenando
+
 
 
 class XgbClient(Client):
@@ -96,12 +128,16 @@ class XgbClient(Client):
         num_local_round,
         params,
         train_method,
+        run_id: str,
+        train_metrics_path: Path,
     ):
         self.train_dmatrix = train_dmatrix
         self.valid_dmatrix = valid_dmatrix
         self.num_train = num_train
         self.num_val = num_val
         self.num_local_round = num_local_round
+        self.run_id            = run_id
+        self.train_metrics_path = train_metrics_path
 
 
         # Extiende los parámetros con los específicos para regresión
@@ -166,6 +202,30 @@ class XgbClient(Client):
             # Reforzamos el modelo global con entrenamiento local
             bst = self._local_boost(bst)
 
+        # Preparemos el callback para registrar RMSE de entrenamiento
+        log_callback = LogTrainRmse(
+            path=self.train_metrics_path,
+            experiment=self.run_id,
+            global_round=global_round,
+        )
+
+        # si no es la primera ronda, reutilizamos el model global
+        xgb_model = None
+        if global_round != 1:
+            bst = xgb.Booster(params=self.params)
+            bst.load_model(bytearray(ins.parameters.tensors[0]))
+            xgb_model = bst
+        
+        # Entrenamos localmente con el modelo global (o desde cero)
+        bst = xgb.train(
+            self.params,
+            self.train_dmatrix,
+            num_boost_round=self.num_local_round,
+            xgb_model=xgb_model,  # Modelo global si no es la primera ronda
+            evals=[(self.valid_dmatrix, "rmse")],  # Validación con RMSE
+            callbacks=[log_callback],  # Callback para registrar RMSE
+        )
+
         # Calcular RMSE en validación local
         preds = bst.predict(self.valid_dmatrix)
         true_labels = self.valid_dmatrix.get_label()
@@ -218,7 +278,12 @@ class XgbClient(Client):
 
 def client_fn(context: Context) -> XgbClient:
     """Cliente federado personalizado que se configura mediante context.run_config."""
+    # Run-ID para identificar tu experimento
+    run_id      = str(context.run_config.get("run-id", "unknown"))
 
+    # Directorio global de resultados de entrenamiento
+    PROJECT_SRC = Path(__file__).resolve().parent.parent
+    TRAIN_CSV   = PROJECT_SRC / "results" / "resultados_globales" / "train_metrics.csv"
     # Parámetros de partición del contexto del nodo
     partition_id = int(context.node_config["partition-id"])
     num_partitions = int(context.node_config["num-partitions"])
@@ -273,6 +338,8 @@ def client_fn(context: Context) -> XgbClient:
         num_local_round=num_local_round,
         params=params,
         train_method=train_method,
+        run_id=run_id,
+        train_metrics_path=TRAIN_CSV,
     )
 
 # Registro de la aplicación cliente con Flower
