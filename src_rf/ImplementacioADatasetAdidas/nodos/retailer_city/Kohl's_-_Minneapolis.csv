@@ -1,7 +1,9 @@
-City,Price per Unit,Product_Men's Athletic Footwear,Product_Men's Street Footwear,Product_Women's Apparel,Product_Women's Athletic Footwear,Product_Women's Street Footwear,Region_Northeast,Region_South,Region_Southeast,Region_West,Retailer ID,Retailer_Foot Locker,Retailer_Kohl's,Retailer_Sports Direct,Retailer_Walmart,Retailer_West Gear,Sales Method_Online,Sales Method_Outlet,State,Units Sold
-33.0,41.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,22.0,119
-33.0,45.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,22.0,475
-33.0,45.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,22.0,475
-33.0,43.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,22.0,128
-33.0,35.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,22.0,475
-33.0,44.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,22.0,98
+City,Operating Margin,Price per Unit,Product_Men's Athletic Footwear,Product_Men's Street Footwear,Product_Women's Apparel,Product_Women's Athletic Footwear,Product_Women's Street Footwear,Region_Northeast,Region_South,Region_Southeast,Region_West,Retailer ID,Retailer_Foot Locker,Retailer_Kohl's,Retailer_Sports Direct,Retailer_Walmart,Retailer_West Gear,Sales Method_Online,Sales Method_Outlet,State,inv_day,inv_month,inv_year,Units Sold
+33.0,0.45,35.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,22.0,28.0,12.0,2020.0,475
+33.0,0.3,45.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,22.0,29.0,12.0,2020.0,475
+33.0,0.45,45.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,22.0,30.0,12.0,2020.0,475
+33.0,0.5900000000000001,41.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,22.0,30.0,12.0,2020.0,119
+33.0,0.42,43.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,22.0,29.0,12.0,2020.0,128
+33.0,0.52,44.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,22.0,31.0,12.0,2020.0,98
+33.0,0.39999999999999997,45.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,22.0,31.0,12.0,2020.0,325
+33.0,0.5800000000000001,32.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1189833.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,22.0,28.0,12.0,2020.0,119

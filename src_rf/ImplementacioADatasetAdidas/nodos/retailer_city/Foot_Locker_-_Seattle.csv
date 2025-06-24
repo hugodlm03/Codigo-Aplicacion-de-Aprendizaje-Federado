@@ -1,6 +1,7 @@
-City,Price per Unit,Product_Men's Athletic Footwear,Product_Men's Street Footwear,Product_Women's Apparel,Product_Women's Athletic Footwear,Product_Women's Street Footwear,Region_Northeast,Region_South,Region_Southeast,Region_West,Retailer ID,Retailer_Foot Locker,Retailer_Kohl's,Retailer_Sports Direct,Retailer_Walmart,Retailer_West Gear,Sales Method_Online,Sales Method_Outlet,State,Units Sold
-47.0,38.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,46.0,175
-47.0,35.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,46.0,850
-47.0,45.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,46.0,1050
-47.0,41.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,46.0,221
-47.0,40.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,46.0,700
+City,Operating Margin,Price per Unit,Product_Men's Athletic Footwear,Product_Men's Street Footwear,Product_Women's Apparel,Product_Women's Athletic Footwear,Product_Women's Street Footwear,Region_Northeast,Region_South,Region_Southeast,Region_West,Retailer ID,Retailer_Foot Locker,Retailer_Kohl's,Retailer_Sports Direct,Retailer_Walmart,Retailer_West Gear,Sales Method_Online,Sales Method_Outlet,State,inv_day,inv_month,inv_year,Units Sold
+47.0,0.25,35.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,46.0,8.0,8.0,2020.0,850
+47.0,0.35,45.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,46.0,7.0,8.0,2020.0,850
+47.0,0.45,45.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,46.0,6.0,8.0,2020.0,1050
+47.0,0.39,34.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,46.0,8.0,8.0,2020.0,230
+47.0,0.49,41.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,46.0,7.0,8.0,2020.0,221
+47.0,0.4,38.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,1185732.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,46.0,9.0,8.0,2020.0,175

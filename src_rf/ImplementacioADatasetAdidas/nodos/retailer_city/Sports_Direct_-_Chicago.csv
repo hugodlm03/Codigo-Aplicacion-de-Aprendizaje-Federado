@@ -1,9 +1,8 @@
-City,Price per Unit,Product_Men's Athletic Footwear,Product_Men's Street Footwear,Product_Women's Apparel,Product_Women's Athletic Footwear,Product_Women's Street Footwear,Region_Northeast,Region_South,Region_Southeast,Region_West,Retailer ID,Retailer_Foot Locker,Retailer_Kohl's,Retailer_Sports Direct,Retailer_Walmart,Retailer_West Gear,Sales Method_Online,Sales Method_Outlet,State,Units Sold
-13.0,28.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,12.0,196
-13.0,30.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,525
-13.0,30.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,725
-13.0,27.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,12.0,158
-13.0,35.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,525
-13.0,20.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,725
-13.0,20.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,12.0,189
-13.0,34.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,12.0,152
+City,Operating Margin,Price per Unit,Product_Men's Athletic Footwear,Product_Men's Street Footwear,Product_Women's Apparel,Product_Women's Athletic Footwear,Product_Women's Street Footwear,Region_Northeast,Region_South,Region_Southeast,Region_West,Retailer ID,Retailer_Foot Locker,Retailer_Kohl's,Retailer_Sports Direct,Retailer_Walmart,Retailer_West Gear,Sales Method_Online,Sales Method_Outlet,State,inv_day,inv_month,inv_year,Units Sold
+13.0,0.51,34.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,12.0,14.0,8.0,2021.0,152
+13.0,0.4,28.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,12.0,12.0,8.0,2021.0,196
+13.0,0.3,30.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,12.0,8.0,2021.0,725
+13.0,0.4,20.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,12.0,11.0,8.0,2021.0,189
+13.0,0.3,20.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,11.0,8.0,2021.0,725
+13.0,0.4,35.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,14.0,8.0,2021.0,525
+13.0,0.3,30.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1197831.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,12.0,13.0,8.0,2021.0,525
