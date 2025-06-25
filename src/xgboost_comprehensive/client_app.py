@@ -74,6 +74,9 @@ from flwr.common.context import Context
 from xgboost_comprehensive.task_adidas import load_data
 from xgboost_comprehensive.task import replace_keys
 
+# Calculo métricas adicionales
+from sklearn.metrics import mean_absolute_error, r2_score
+from time import perf_counter
 class LogTrainRmse(TrainingCallback):
     """
     Callback para registrar el RMSE de entrenamiento iteración a iteración.
@@ -259,20 +262,35 @@ class XgbClient(Client):
         para_b = bytearray(ins.parameters.tensors[0])
         bst.load_model(para_b)
 
+        # 2) Predicción en tu valid_dmatrix local
+        preds  = bst.predict(self.valid_dmatrix)
+        labels = self.valid_dmatrix.get_label()
+
         # Evaluar en la ronda actual (última iteración del booster)
+        start = perf_counter()
         eval_results = bst.eval_set(
             evals=[(self.valid_dmatrix, "rmse")],
             iteration=bst.num_boosted_rounds() - 1,
         )
+        
 
         # Formato del resultado: "validation-rmse:<valor>"
         rmse = float(eval_results.split("\t")[1].split(":")[1])
 
+
+        # 4) Cálculo de métricas adicionales
+        mae = mean_absolute_error(labels, preds)
+        r2  = r2_score(labels, preds)
+        eval_time = perf_counter() - start
         return EvaluateRes(
             status=Status(code=Code.OK, message="OK"),
             loss=rmse,
             num_examples=self.num_val,
-            metrics={"rmse": rmse},
+            metrics={
+            "rmse": rmse,
+            "mae": mae,
+            "r2": r2,
+            "eval_time_round": eval_time,}
         )
 
 

@@ -70,7 +70,6 @@ from xgboost_comprehensive.task import replace_keys, transform_dataset_to_dmatri
 from xgboost_comprehensive.data_loader import load_clean_adidas_data
 from xgboost_comprehensive.metrics import init_server_csv, append_server_metric
 
-
 class CyclicClientManager(SimpleClientManager):
     """
         ClientManager personalizado que selecciona todos los clientes disponibles
@@ -188,6 +187,41 @@ def get_evaluate_fn( test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar], resul
     return evaluate_fn
 
 
+
+def make_aggregation_logger(results_csv: Path, run_id: str):
+    counter = {"rnd": 0}
+    
+    def aggregation_logger(
+        eval_metrics: list[tuple[int, dict[str, float]]]
+    ) -> dict[str, float]:
+        counter["rnd"] += 1
+        round_nr = counter["rnd"]
+
+        total    = sum(n for n, _ in eval_metrics)
+        # Ejemplo de agregación de tiempos:
+        time_agg = sum(m.get("eval_time_round", 0.0) * n for n, m in eval_metrics) / total
+        rmse_agg = sum(m["rmse"] * n for n, m in eval_metrics) / total
+        mae_agg  = sum(m.get("mae", 0.0) * n for n, m in eval_metrics) / total
+        r2_agg   = sum(m.get("r2", 0.0) * n for n, m in eval_metrics) / total
+
+        append_server_metric(
+            results_csv,
+            run_id,
+            round_nr,
+            eval_time_round=time_agg, 
+            rmse=rmse_agg,
+            mae=mae_agg,
+            r2=r2_agg,
+        )
+
+        # ➡️ Devolvemos todas las métricas
+        return {"rmse": rmse_agg, "mae": mae_agg, "r2": r2_agg}
+
+    return aggregation_logger
+
+
+
+
 def evaluate_metrics_aggregation(eval_metrics: List[tuple[int, Dict[str, float]]]) -> Dict[str, float]:
     """
     Agrega las métricas RMSE reportadas por los clientes usando promedio ponderado.
@@ -242,12 +276,21 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     # Carpeta nueva para métricas GLOBALES
     GLOBAL_DIR = PROJECT_ROOT /  "results" / "resultados_globales"
-    GLOBAL_DIR.mkdir(parents=True, exist_ok=True)
+    GLOBAL_BAG_DIR  = GLOBAL_DIR / "bagging"
+    GLOBAL_CYCL_DIR = GLOBAL_DIR / "cycling"
+
+    # Crear ambas carpetas
+    for d in (GLOBAL_BAG_DIR, GLOBAL_CYCL_DIR):
+        d.mkdir(parents=True, exist_ok=True)
 
 
-    # CSV de métricas GLOBALES
-    results_csv = GLOBAL_DIR / "server_metrics.csv"
-    init_server_csv(results_csv, metrics=["rmse", "mae", "r2"])
+  # Cada una tiene su propio server_metrics.csv
+    csv_bagging = GLOBAL_BAG_DIR / "server_metrics.csv"
+    csv_cycling = GLOBAL_CYCL_DIR / "server_metrics.csv"
+        
+    # Inicializa ambos (métricas idénticas: rmse, mae, r2, eval_time_round)
+    init_server_csv(csv_bagging, metrics=["rmse", "mae", "r2", "eval_time_round"])
+    init_server_csv(csv_cycling, metrics=["rmse", "mae", "r2", "eval_time_round"])
 
     num_rounds       = cfg["num-server-rounds"]
     fraction_fit     = cfg["fraction-fit"]
@@ -302,8 +345,8 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Preparar función de evaluación centralizada (solo si está activada)
     evaluate_fn = None
     if centralised_eval and test_dmatrix is not None:
-          evaluate_fn = get_evaluate_fn(test_dmatrix,params,results_csv,run_id,)
-
+          evaluate_fn = get_evaluate_fn(test_dmatrix,params,csv_bagging,run_id,)
+    agg_cycling = make_aggregation_logger(csv_cycling, run_id)
     # Definir la estrategia y el client manager
     if train_method == "bagging":
         strategy = FedXgbBagging(
@@ -322,7 +365,7 @@ def server_fn(context: Context) -> ServerAppComponents:
         strategy = FedXgbCyclic(
             fraction_fit=1.0,
             fraction_evaluate=1.0,
-            evaluate_metrics_aggregation_fn=evaluate_metrics_aggregation,
+            evaluate_metrics_aggregation_fn=agg_cycling,
             on_evaluate_config_fn=config_func,
             on_fit_config_fn=config_func,
             initial_parameters=initial_parameters,
