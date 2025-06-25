@@ -16,7 +16,50 @@ Recuerda activar el entorno virtual antes de ejecutar:
 import sys
 from pathlib import Path
 import pandas as pd
+import json
 
+DATA_PARAMS = {
+    "target": "Units Sold",
+    "ignored_columns": ["Total Sales", "Operating Profit"],      # igual que en rf
+}
+
+_COL_TEMPLATE: list[str] | None = None          # se calcula 1 sola vez
+
+def preprocess_features(raw: pd.DataFrame, dp: dict = DATA_PARAMS) -> tuple[pd.DataFrame, pd.Series]:
+    """Devuelve X numérico homogéneo + y."""
+    y = raw[dp["target"]]
+
+    X = raw.copy()
+
+    # ---- variables de tiempo (año/mes/día)
+    X["Invoice Date"] = pd.to_datetime(X["Invoice Date"], errors="coerce")
+    X["inv_year"]  = X["Invoice Date"].dt.year
+    X["inv_month"] = X["Invoice Date"].dt.month
+    X["inv_day"]   = X["Invoice Date"].dt.day
+    X = X.drop(columns=["Invoice Date"])
+
+    # ---- one-hot (categorías pequeñas)
+    small_cats = ["Retailer", "Region", "Product", "Sales Method"]
+    X = pd.get_dummies(X, columns=small_cats, drop_first=True)
+
+    # ---- label-encoding (categorías muy grandes)
+    for col in ["State", "City"]:
+        X[col] = X[col].astype("category").cat.codes
+
+    # ---- eliminar columnas que no queremos que el modelo vea
+    X = X.drop(columns=dp["ignored_columns"] + [dp["target"]])
+
+    return X.astype("float64"), y
+
+def get_feature_template(df: pd.DataFrame) -> list[str]:
+    """Calcula (o recupera) la plantilla global de columnas."""
+    global _COL_TEMPLATE
+    if _COL_TEMPLATE is None:
+        X_full, _ = preprocess_features(df)
+        _COL_TEMPLATE = sorted(X_full.columns)
+        Path("artefactos").mkdir(exist_ok=True)
+        Path("artefactos/template_cols.json").write_text(json.dumps(_COL_TEMPLATE))
+    return _COL_TEMPLATE
 
 # FUNCIÓN: Cargar y limpiar datos 
 def load_clean_adidas_data(ruta_excel: str | Path) -> pd.DataFrame:

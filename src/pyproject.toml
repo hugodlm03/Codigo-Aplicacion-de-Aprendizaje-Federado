@@ -25,10 +25,7 @@ include = [
   "datos*",
 ]
 
-[tool.hatch.build.targets.wheel]
-include = [
-  "datos/*.xlsx",
-]
+
 
 [tool.flwr.app]
 publisher = "flwrlabs"
@@ -50,7 +47,7 @@ test-fraction        = 0.2
 seed                 = 42
 centralised-eval-client = false
 local-epochs         = 1
-scaled-lr            = false
+scaled-lr            = true
 
 [tool.flwr.app.config.params]
 eta               = 0.1

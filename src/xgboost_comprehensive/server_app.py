@@ -52,6 +52,7 @@ import time
 # === Librerías externas ===
 import xgboost as xgb
 from datasets import load_dataset  # (Actualmente no usado, se puede eliminar si no se usa)
+import numpy as np
 
 # === Flower: módulos comunes ===
 from flwr.common import Context, Parameters, Scalar
@@ -66,8 +67,9 @@ from flwr.server.criterion import Criterion
 from flwr.server.strategy import FedXgbBagging, FedXgbCyclic
 
 # === Módulos propios del proyecto ===
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from xgboost_comprehensive.task import replace_keys, transform_dataset_to_dmatrix
-from xgboost_comprehensive.data_loader import load_clean_adidas_data
+from xgboost_comprehensive.data_loader import load_clean_adidas_data, preprocess_features, get_feature_template
 from xgboost_comprehensive.metrics import init_server_csv, append_server_metric
 
 class CyclicClientManager(SimpleClientManager):
@@ -127,6 +129,7 @@ class CyclicClientManager(SimpleClientManager):
         # Devolver todos los clientes disponibles (modo cíclico)
         return [self.clients[cid] for cid in available_cids]
 
+from flwr.server.strategy import FedAvg
 
 
 def get_evaluate_fn( test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar], results_csv: Path, run_id: str,):
@@ -144,47 +147,87 @@ def get_evaluate_fn( test_dmatrix: xgb.DMatrix, params: Dict[str, Scalar], resul
             Callable: Función de evaluación compatible con Flower (recibe ronda, modelo, config).
     """
     from sklearn.metrics import mean_absolute_error, r2_score
-    def evaluate_fn(
-        server_round: int, parameters: Parameters, config: Dict[str, Scalar]
-    ) -> Optional[tuple[float, Dict[str, Scalar]]]:
+
+    def evaluate_fn(server_round: int, parameters: Parameters, config: Dict[str, Scalar]) -> Optional[tuple[float, Dict[str, Scalar]]]:
         # Saltar evaluación en la ronda 0
         print(f"[DEBUG evaluate_fn] round={server_round}, csv={results_csv}")
+        
+        # Ronda 0 --> sin evaluación.
         if server_round == 0:
             return 0.0, {}
+        
+
         # Medir tiempo de evaluación del modelo global en el servidor
         eval_start = time.perf_counter()
-        # Cargar modelo recibido desde los parámetros
+        
+        # Reconstrucción: un Booster por tensor
+        client_boosters = []
         bst = xgb.Booster(params=params)
         for tensor in parameters.tensors:
-            bst.load_model(bytearray(tensor))
-        # Evaluar modelo sobre el conjunto de prueba
-        ev = bst.eval_set(
-            evals=[(test_dmatrix, "rmse")],
-            iteration=bst.num_boosted_rounds() - 1,
-        )
-        # Formato esperado: "validation-rmse:<valor>"
-        preds = bst.predict(test_dmatrix)
-        labels = test_dmatrix.get_label()
+            b = xgb.Booster(params=params)
+            b.load_model(bytearray(tensor))
+            client_boosters.append(b)
 
+        # Predice con cada Booster y promedia
+        preds_stack = np.stack([b.predict(test_dmatrix) for b in client_boosters])
+        # promedio de predicciones
+        preds = preds_stack.mean(axis=0)
+
+        # Calculo de métricas
+        labels = test_dmatrix.get_label()
         mae = mean_absolute_error(labels, preds)
         r2  = r2_score(labels, preds)
-        rmse = float(ev.split("\t")[1].split(":")[1])
-        # Registrar métricas en un CSV Global
-        print(f"[DEBUG] metrics: rmse={rmse:.4f}, mae={mae:.4f}, r2={r2:.4f}")
+        rmse   = float(np.sqrt(mean_squared_error(labels, preds)))
+
         eval_time_round = time.perf_counter() - eval_start
 
-        # Derivamos la carpeta de modelos a partir de results_csv
-        models_dir = results_csv.parent / "models"
-        models_dir.mkdir(parents=True, exist_ok=True)
-        model_path = models_dir / f"{run_id}_round_{server_round}.json"
-        bst.save_model(str(model_path))
+
+        # Guardamos los modelos en carpetas distintas
+        base_models_dir = results_csv.parent / "models"
+        ensemble_dir    = base_models_dir / "ensemble"
+        clients_dir     = base_models_dir / "clients"
+        ensemble_dir.mkdir(parents=True, exist_ok=True)
+        clients_dir.mkdir(parents=True, exist_ok=True)
+
+        # 4a) Guardar ensemble: cargar todos los árboles en un Booster único
+        ensemble = xgb.Booster(params=params)
+        for tensor in parameters.tensors:
+            ensemble.load_model(bytearray(tensor))
+        ensemble.save_model(str(ensemble_dir / f"{run_id}_round{server_round}.json"))
+
+
+        # 4b) Guardar cada booster de cliente
+        for idx, b in enumerate(client_boosters):
+            b.save_model(str(clients_dir / f"{run_id}_r{server_round}_c{idx}.json"))
+
 
         # Registrar métricas y tiempos en el CSV
         append_server_metric(results_csv, run_id, server_round,eval_time_round=eval_time_round,rmse=rmse, mae=mae, r2=r2,)
-        # Calcular tiempo transcurrido para la evaluación
+
+
         return rmse, {"rmse": rmse, "mae": mae, "r2": r2}
         
     return evaluate_fn
+
+def get_save_model_fn(models_dir: Path, run_id: str):
+    """
+    Devuelve una función que simplemente guarda el modelo global
+    en cada ronda y devuelve métricas “vacías”.
+
+    Flower llamará a esta función tras cada agregación; así
+    garantizamos que el booster global se escribe a disco.
+    """
+    models_dir.mkdir(parents=True, exist_ok=True)
+
+    def save_fn(server_round: int,parameters: list, config: dict):
+
+        # --- OPCIÓN A: trabajar directamente con los ndarrays -------------
+        
+        filename = models_dir / f"round_{server_round:03d}.npz"
+        np.savez_compressed(filename, *parameters)
+
+        # Si no calculas métricas, devuelve None
+        return None                     # ó  (0.0, {}) si Flower te obliga
 
 
 
@@ -278,6 +321,8 @@ def server_fn(context: Context) -> ServerAppComponents:
     GLOBAL_DIR = PROJECT_ROOT /  "results" / "resultados_globales"
     GLOBAL_BAG_DIR  = GLOBAL_DIR / "bagging"
     GLOBAL_CYCL_DIR = GLOBAL_DIR / "cycling"
+    CYCL_MODELS_DIR = GLOBAL_CYCL_DIR / "models"
+
 
     # Crear ambas carpetas
     for d in (GLOBAL_BAG_DIR, GLOBAL_CYCL_DIR):
@@ -324,20 +369,26 @@ def server_fn(context: Context) -> ServerAppComponents:
         "eval_metric": "rmse",
         **hyperparams
     }
+    
     # Cargar el dataset completo para evaluación centralizada (si aplica)
     test_dmatrix: Optional[xgb.DMatrix] = None
     if centralised_eval:
-        df = load_clean_adidas_data(excel_path)
-         # Codificar variables categóricas, string y datetime a valores numéricos
-        for col in df.select_dtypes(include=["category"]).columns:
-            df[col] = df[col].cat.codes
-        for col in df.select_dtypes(include=["object"]).columns:
-            df[col] = df[col].astype("category").cat.codes
-        for col in df.select_dtypes(include=["datetime"]).columns:
-            df[col] = df[col].astype("int64")
-        X = df.drop(columns=["Units Sold"])
-        y = df["Units Sold"]
-        test_dmatrix = xgb.DMatrix(X, label=y)
+        df_full = load_clean_adidas_data(excel_path)
+        
+        # Codificar variables categóricas, string y datetime a valores numéricos
+        cols_template = get_feature_template(df_full)   # lista ordenada de columnas
+
+        X_test, y_test = preprocess_features(df_full)   # ← mismo one-hot/label-enc
+
+        # re-index para garantizar orden y que no falten columnas
+        X_test = X_test.reindex(columns=cols_template, fill_value=0.0)
+
+        test_dmatrix = xgb.DMatrix(
+            X_test.values.astype("float32"),
+            label=y_test.values.astype("float32"),
+            feature_names=cols_template,
+        )
+
 
     # Crear parámetros iniciales vacíos (modelo sin entrenar)
     initial_parameters = Parameters(tensor_type="", tensors=[])
@@ -346,6 +397,8 @@ def server_fn(context: Context) -> ServerAppComponents:
     evaluate_fn = None
     if centralised_eval and test_dmatrix is not None:
           evaluate_fn = get_evaluate_fn(test_dmatrix,params,csv_bagging,run_id,)
+    # Instaciar helpers de cycling
+    save_cycl_fn = get_save_model_fn(CYCL_MODELS_DIR, run_id)
     agg_cycling = make_aggregation_logger(csv_cycling, run_id)
     # Definir la estrategia y el client manager
     if train_method == "bagging":

@@ -1,0 +1,12 @@
+run-id = "retailer_region-cycling-ce-on-tf-0p1-le-10-eta-0p002-md-6-ss-0p6_2025-06-25"
+strategy = "cycling"
+partitioner = "retailer_region"
+centralised-eval = true
+test-fraction = 0.1
+local-epochs = 10
+scaled-lr = true
+
+[params]
+eta = 0.002
+max_depth = 6
+subsample = 0.6

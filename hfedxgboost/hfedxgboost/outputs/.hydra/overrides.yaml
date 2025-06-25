@@ -1,0 +1,3 @@
+- dataset=adidas_us_sales
+- clients=adidas_28_clients
+- strategy.fraction_evaluate=0.2

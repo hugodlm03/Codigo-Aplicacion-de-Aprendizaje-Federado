@@ -21,6 +21,8 @@ from xgboost_comprehensive.data_loader import (
     partition_by_region,
     partition_by_retailer_region,
     partition_by_retailer_city,
+    preprocess_features, 
+    get_feature_template,
 )
 
 from pathlib import Path
@@ -92,28 +94,18 @@ def load_data(
 
     log(INFO, f"Client partition '{key}': {num_train} train rows, {num_valid} valid rows")
 
-    # Convertir columnas categóricas, objeto y datetime a valores numéricos
-    for df_ in [train_df, valid_df]:
-        # Categoricas : convertir a códigos numéricos
-        for col in df_.select_dtypes(include=['category']).columns:
-            df_[col] = df_[col].cat.codes
-        # Tipos de objeto: convertir a códigos numéricos
-        for col in df_.select_dtypes(include=['object']).columns:
-            df_[col] = df_[col].astype('category').cat.codes
-        # Datetime: convertir a enteros (timestamp)
-        for col in df_.select_dtypes(include=['datetime']).columns:
-            df_[col] = df_[col].astype('int64')
+    cols = get_feature_template(df) 
+
+    X_tr, y_tr = preprocess_features(train_df)
+    X_va, y_va = preprocess_features(valid_df)
+
+    # re-index a plantilla (garantiza misma dimensión y orden)
+    X_tr = X_tr.reindex(columns=cols, fill_value=0.0)
+    X_va = X_va.reindex(columns=cols, fill_value=0.0)
+
+    train_dmatrix = xgb.DMatrix(data=X_tr.values, label=y_tr.values, feature_names=cols)
+    valid_dmatrix = xgb.DMatrix(data=X_va.values, label=y_va.values, feature_names=cols)
     
-    #  Crear matrices DMatrix para XGBoost
-    feature_cols = [c for c in train_df.columns if c != "Units Sold"]
-    X_train = train_df[feature_cols]
-    y_train = train_df["Units Sold"]
-    X_valid = valid_df[feature_cols]
-    y_valid = valid_df["Units Sold"]
-
-    train_dmatrix = xgb.DMatrix(X_train, label=y_train)
-    valid_dmatrix = xgb.DMatrix(X_valid, label=y_valid)
-
     return train_dmatrix, valid_dmatrix, num_train, num_valid
 
 

@@ -1,0 +1,11 @@
+defaults:
+  - task: Regression
+  - _self_
+
+dataset_name: adidas_us_sales
+train_ratio: 0.8
+early_stop_patience_rounds: 10        # ← añade esta línea (ajusta a tu gusto)
+
+loader_fn: hfedxgboost.adidas_dataset.load_clean_adidas_data
+numpy_fn:  hfedxgboost.adidas_dataset.adidas_to_numpy
+partition_fn: hfedxgboost.adidas_dataset.adidas_split_non_iid

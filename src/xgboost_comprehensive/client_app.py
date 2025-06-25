@@ -50,6 +50,7 @@ Este código parte y adapta gran parte de la lógica del ejemplo oficial:
 # === Imports ===
 import warnings
 from pathlib import Path
+import logging
 
 # Ignorar ciertos warnings de usuario de XGBoost
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -108,7 +109,7 @@ class LogTrainRmse(TrainingCallback):
         return False  # seguir entrenando
 
 
-
+logger = logging.getLogger(__name__)
 class XgbClient(Client):
     """
     Cliente Flower personalizado para entrenamiento federado usando XGBoost.
@@ -152,30 +153,61 @@ class XgbClient(Client):
         self.train_method = train_method
 
 
-    def _local_boost(self, bst_input):
+    def _local_boost(self, bst_input: xgb.Booster) -> xgb.Booster:
+            """
+            Realiza num_local_round actualizaciones en bst_input y devuelve
+            SOLO esas rondas nuevas (bagging), o el modelo completo en cyclic.
+            """
+            # 1) Entrena in-place num_local_round iteraciones
+            logger.debug(">>> _local_boost: rondas antes de entrenar: %d",
+                 bst_input.num_boosted_rounds())
+            for _ in range(self.num_local_round):
+                bst_input.update(self.train_dmatrix, bst_input.num_boosted_rounds())
 
-        """
-        Realiza el entrenamiento local de XGBoost.
-        Args:
-            bst_input (xgb.Booster): Modelo XGBoost inicial o global.
-        Returns:
-            xgb.Booster: Modelo XGBoost actualizado tras el entrenamiento local.
 
-        """
-        # Entrenamos localmente durante num_local_round rondas
-        for i in range(self.num_local_round):
-            bst_input.update(self.train_dmatrix, bst_input.num_boosted_rounds())
+            total = bst_input.num_boosted_rounds()
+            logger.debug(">>> _local_boost: rondas tras entrenar: %d (añadidas: %d)",
+                 total, total - (total - self.num_local_round))
 
-         # Según el método, devolvemos:
-        # - "bagging": solo las últimas rondas entrenadas (para agregación en servidor)
-        #- cyclic: el modelo completo
-        if self.train_method == "bagging":
-            start = bst_input.num_boosted_rounds() - self.num_local_round
-            end = bst_input.num_boosted_rounds()
-            bst = bst_input[start:end]
-        else:
-            bst = bst_input
-        return bst
+
+            # 2) Si bagging, extrae sólo las N rondas recién entrenadas
+            if self.train_method == "bagging":
+                total_rounds = bst_input.num_boosted_rounds()
+                start = total_rounds - self.num_local_round
+                end = total_rounds
+
+                # XGBoost slicing: crea un Booster nuevo con sólo árboles [start:end)
+                partial = bst_input[start:end]
+                obtained = partial.num_boosted_rounds()
+
+
+                logger.debug(
+                    ">>> slicing [%d:%d] → rondas devueltas: %d (esperadas: %d)",
+                    start, end, obtained, self.num_local_round
+                )
+
+                # 3) Verificación inmediata
+                obtained = partial.num_boosted_rounds()
+                if obtained != self.num_local_round:
+                    # Fallo grave: lanzamos excepción para detectar bug en desarrollo
+                    raise RuntimeError(
+                        f"Bagging slice error: esperaba {self.num_local_round} rondas, "
+                        f"pero obtuve {obtained}"
+                    )
+                # 4) Logging informativo
+                logger.info(
+                    "Bagging: devuelto fragmento de %d rondas nuevas (esperadas %d)",
+                    obtained,
+                    self.num_local_round,
+                )
+                return partial
+
+            # 5) En cyclic devolvemos el booster completo
+            logger.debug(
+                "Cyclic: devuelvo modelo completo con %d rondas",
+                bst_input.num_boosted_rounds(),
+            )
+            return bst_input
 
     def fit(self, ins: FitIns) -> FitRes:
         """
@@ -187,48 +219,26 @@ class XgbClient(Client):
         """
         # Cargamos el modelo global si existe
         global_round = int(ins.config["global_round"])
-
-
-        if global_round == 1:
-            # Primera ronda: entrenamiento local desde cero
-            bst = xgb.train(
-                self.params,
-                self.train_dmatrix,
-                num_boost_round=self.num_local_round,
-                evals=[(self.valid_dmatrix, "rmse")],  # Validación con RMSE
-            )
-        else:
-            # Rondas posteriores: cargamos el modelo global y reforzamos localmente
-            bst = xgb.Booster(params=self.params)
-            global_model = bytearray(ins.parameters.tensors[0])
-            bst.load_model(global_model)
-            # Reforzamos el modelo global con entrenamiento local
-            bst = self._local_boost(bst)
-
-        # Preparemos el callback para registrar RMSE de entrenamiento
-        log_callback = LogTrainRmse(
-            path=self.train_metrics_path,
-            experiment=self.run_id,
-            global_round=global_round,
-        )
-
-        # si no es la primera ronda, reutilizamos el model global
+        num_rounds = self.num_local_round
         xgb_model = None
-        if global_round != 1:
-            bst = xgb.Booster(params=self.params)
-            bst.load_model(bytearray(ins.parameters.tensors[0]))
-            xgb_model = bst
-        
-        # Entrenamos localmente con el modelo global (o desde cero)
+
+        # Si no es la ronda 1, carga el modelo global
+        if global_round > 1:
+            xgb_model = xgb.Booster()
+            xgb_model.load_model(bytearray(ins.parameters.tensors[0]))
+
+        # Entrena LOCALMENTE num_rounds rondas, continuando desde global (si existe)
         bst = xgb.train(
             self.params,
             self.train_dmatrix,
-            num_boost_round=self.num_local_round,
-            xgb_model=xgb_model,  # Modelo global si no es la primera ronda
-            evals=[(self.valid_dmatrix, "rmse")],  # Validación con RMSE
-            callbacks=[log_callback],  # Callback para registrar RMSE
+            num_boost_round=num_rounds,
+            xgb_model=xgb_model,
+            callbacks=[LogTrainRmse(self.train_metrics_path, self.run_id, global_round)]
         )
-
+        if self.train_method == "bagging":
+            start = bst.num_boosted_rounds() - num_rounds
+            bst = bst[start:bst.num_boosted_rounds()]
+            
         # Calcular RMSE en validación local
         preds = bst.predict(self.valid_dmatrix)
         true_labels = self.valid_dmatrix.get_label()

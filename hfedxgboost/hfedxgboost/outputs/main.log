@@ -1,0 +1,295 @@
+[2025-06-19 13:38:32,043][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=100, round_timeout=None)
+[2025-06-19 13:38:48,373][flwr][INFO] - Flower VCE: Ray initialized with resources: {'accelerator_type:G': 1.0, 'node:127.0.0.1': 1.0, 'GPU': 1.0, 'CPU': 12.0, 'memory': 1562544539.0, 'object_store_memory': 781272268.0, 'node:__internal_head__': 1.0}
+[2025-06-19 13:38:48,374][flwr][INFO] - Initializing global parameters
+[2025-06-19 13:38:48,374][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-19 13:38:55,128][flwr][INFO] - Received initial parameters from one random client
+[2025-06-19 13:38:55,128][flwr][INFO] - Evaluating initial parameters
+[2025-06-19 13:42:07,500][flwr][INFO] - initial parameters (loss, other metrics): 4761.260690576425, {'mse': tensor(150893.8125)}
+[2025-06-19 13:42:07,593][flwr][INFO] - FL starting
+[2025-06-19 13:42:07,595][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-19 13:46:01,859][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=100, round_timeout=None)
+[2025-06-19 13:47:07,053][flwr][INFO] - Flower VCE: Ray initialized with resources: {'CPU': 12.0, 'memory': 499829147.0, 'accelerator_type:G': 1.0, 'GPU': 1.0, 'node:127.0.0.1': 1.0, 'object_store_memory': 249914572.0, 'node:__internal_head__': 1.0}
+[2025-06-19 13:47:07,054][flwr][INFO] - Initializing global parameters
+[2025-06-19 13:47:07,058][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-19 13:47:57,543][flwr][INFO] - Received initial parameters from one random client
+[2025-06-19 13:47:57,543][flwr][INFO] - Evaluating initial parameters
+[2025-06-19 14:06:45,022][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=100, round_timeout=None)
+[2025-06-19 14:06:57,051][flwr][INFO] - Flower VCE: Ray initialized with resources: {'CPU': 12.0, 'GPU': 1.0, 'accelerator_type:G': 1.0, 'node:127.0.0.1': 1.0, 'node:__internal_head__': 1.0, 'object_store_memory': 1333765324.0, 'memory': 2667530651.0}
+[2025-06-19 14:06:57,052][flwr][INFO] - Initializing global parameters
+[2025-06-19 14:06:57,052][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-19 14:07:01,945][flwr][INFO] - Received initial parameters from one random client
+[2025-06-19 14:07:01,946][flwr][INFO] - Evaluating initial parameters
+[2025-06-19 14:09:38,226][flwr][INFO] - initial parameters (loss, other metrics): 4945.95543636658, {'mse': tensor(156749.1250)}
+[2025-06-19 14:09:38,257][flwr][INFO] - FL starting
+[2025-06-19 14:09:38,259][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-19 14:32:34,978][flwr][DEBUG] - fit_round 1 received 28 results and 0 failures
+[2025-06-19 14:32:35,012][flwr][WARNING] - No fit_metrics_aggregation_fn provided
+[2025-06-19 14:35:11,761][flwr][INFO] - fit progress: (1, 1355.3290985265544, {'mse': tensor(42816.8125)}, 1533.5039168000003)
+[2025-06-19 14:35:11,803][flwr][DEBUG] - evaluate_round 1: strategy sampled 5 clients (out of 28)
+[2025-06-19 14:35:13,154][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=17924, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 14:35:13,155][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=34664, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 14:35:13,168][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=28264, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 14:35:13,237][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=35168, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 14:35:13,239][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=32244, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 14:35:13,240][flwr][DEBUG] - evaluate_round 1 received 0 results and 5 failures
+[2025-06-19 14:35:13,242][flwr][DEBUG] - fit_round 2: strategy sampled 28 clients (out of 28)
+[2025-06-19 14:59:16,166][flwr][DEBUG] - fit_round 2 received 28 results and 0 failures
+[2025-06-19 15:03:05,204][flwr][INFO] - fit progress: (2, 1335.5682794284326, {'mse': tensor(42173.0938)}, 3206.9471654999998)
+[2025-06-19 15:03:05,240][flwr][DEBUG] - evaluate_round 2: strategy sampled 5 clients (out of 28)
+[2025-06-19 15:03:06,917][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=28264, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 15:03:06,995][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=35192, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 15:03:07,022][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=35168, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 15:03:07,064][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=15496, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 15:03:07,313][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=36036, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\hfedxgboost\client.py", line 274, in evaluate
+    self.net.set_weights(parameters_to_ndarrays(ins.parameters))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\common\parameter.py", line 34, in parameters_to_ndarrays
+    return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+                                                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'tensors'
+[2025-06-19 15:03:07,315][flwr][DEBUG] - evaluate_round 2 received 0 results and 5 failures
+[2025-06-19 15:03:07,348][flwr][DEBUG] - fit_round 3: strategy sampled 28 clients (out of 28)
+[2025-06-19 16:10:30,930][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=100, round_timeout=None)
+[2025-06-19 16:10:44,354][flwr][INFO] - Flower VCE: Ray initialized with resources: {'node:__internal_head__': 1.0, 'memory': 900980736.0, 'node:127.0.0.1': 1.0, 'GPU': 1.0, 'object_store_memory': 450490368.0, 'CPU': 12.0, 'accelerator_type:G': 1.0}
+[2025-06-19 16:10:44,355][flwr][INFO] - Initializing global parameters
+[2025-06-19 16:10:44,355][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-19 16:10:49,943][flwr][INFO] - Received initial parameters from one random client
+[2025-06-19 16:10:49,943][flwr][INFO] - Evaluating initial parameters
+[2025-06-19 16:13:14,078][flwr][INFO] - initial parameters (loss, other metrics): 8106.618264248705, {'mse': tensor(256870.7188)}
+[2025-06-19 16:13:14,109][flwr][INFO] - FL starting
+[2025-06-19 16:13:14,110][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-19 16:31:46,527][flwr][DEBUG] - fit_round 1 received 28 results and 0 failures
+[2025-06-19 16:31:46,556][flwr][WARNING] - No fit_metrics_aggregation_fn provided
+[2025-06-19 16:34:12,269][flwr][INFO] - fit progress: (1, 1369.3329374797604, {'mse': tensor(43272.2422)}, 1258.1604181999974)
+[2025-06-19 16:34:12,301][flwr][DEBUG] - evaluate_round 1: strategy sampled 5 clients (out of 28)
+[2025-06-19 16:34:13,034][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=2964, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:34:13,034][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=35932, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:34:13,047][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=35888, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:34:13,048][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=29320, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:34:13,063][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=34224, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:34:13,064][flwr][DEBUG] - evaluate_round 1 received 0 results and 5 failures
+[2025-06-19 16:34:13,066][flwr][DEBUG] - fit_round 2: strategy sampled 28 clients (out of 28)
+[2025-06-19 16:53:36,250][flwr][DEBUG] - fit_round 2 received 28 results and 0 failures
+[2025-06-19 16:56:45,361][flwr][INFO] - fit progress: (2, 1325.0782049465674, {'mse': tensor(41818.8398)}, 2611.2520798999976)
+[2025-06-19 16:56:45,389][flwr][DEBUG] - evaluate_round 2: strategy sampled 5 clients (out of 28)
+[2025-06-19 16:56:46,160][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=29320, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:56:46,165][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=35932, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:56:46,167][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=35888, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:56:46,168][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=34224, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:56:46,239][flwr][ERROR] - [36mray::launch_and_evaluate()[39m (pid=4408, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 160, in launch_and_evaluate
+    return maybe_call_evaluate(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Desktop\s.o.e\Estudios\U-4\Segundo Cuatri\TFG\Codigo-Aplicacion de Aprendizaje Federado\.venv\Lib\site-packages\flwr\client\client.py", line 205, in maybe_call_evaluate
+    return client.evaluate(evaluate_ins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FlClient.evaluate() missing 1 required positional argument: 'config'
+[2025-06-19 16:56:46,239][flwr][DEBUG] - evaluate_round 2 received 0 results and 5 failures
+[2025-06-19 16:56:46,262][flwr][DEBUG] - fit_round 3: strategy sampled 28 clients (out of 28)
