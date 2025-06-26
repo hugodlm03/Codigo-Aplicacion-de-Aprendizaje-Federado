@@ -1,0 +1,18 @@
+[2025-06-26 19:16:21,845][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+[2025-06-26 19:16:27,877][flwr][INFO] - Flower VCE: Ray initialized with resources: {'object_store_memory': 1842257510.0, 'CPU': 12.0, 'node:127.0.0.1': 1.0, 'node:__internal_head__': 1.0, 'accelerator_type:G': 1.0, 'memory': 3684515022.0, 'GPU': 1.0}
+[2025-06-26 19:16:27,878][flwr][INFO] - Initializing global parameters
+[2025-06-26 19:16:27,878][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-26 19:16:31,699][flwr][INFO] - Received initial parameters from one random client
+[2025-06-26 19:16:31,701][flwr][INFO] - Evaluating initial parameters
+[2025-06-26 19:18:40,533][flwr][INFO] - initial parameters (loss, other metrics): 9479.740700561313, {'mse': tensor(301957.5938)}
+[2025-06-26 19:18:40,549][flwr][INFO] - FL starting
+[2025-06-26 19:18:40,550][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-26 19:51:40,238][flwr][DEBUG] - fit_round 1 received 28 results and 0 failures
+[2025-06-26 19:51:40,286][flwr][WARNING] - No fit_metrics_aggregation_fn provided
+[2025-06-26 19:53:21,696][flwr][INFO] - fit progress: (1, 1665.7638375026986, {'mse': tensor(53197.1641)}, 2081.1478891999996)
+[2025-06-26 19:53:21,721][flwr][INFO] - evaluate_round 1: no clients selected, cancel
+[2025-06-26 19:53:21,724][flwr][DEBUG] - fit_round 2: strategy sampled 28 clients (out of 28)
+[2025-06-26 20:18:22,072][flwr][DEBUG] - fit_round 2 received 28 results and 0 failures
+[2025-06-26 20:20:03,105][flwr][INFO] - fit progress: (2, 1377.8863901932211, {'mse': tensor(44002.4414)}, 3682.5571156000005)
+[2025-06-26 20:20:03,111][flwr][INFO] - evaluate_round 2: no clients selected, cancel
+[2025-06-26 20:20:03,113][flwr][DEBUG] - fit_round 3: strategy sampled 28 clients (out of 28)

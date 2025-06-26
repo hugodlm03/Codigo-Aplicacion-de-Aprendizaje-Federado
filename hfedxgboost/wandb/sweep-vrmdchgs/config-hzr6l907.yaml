@@ -1,0 +1,16 @@
+wandb_version: 1
+
+clients:
+  value: adidas_28_clients
+clients.CNN.lr:
+  value: 0.0006009028053918285
+clients.n_estimators_client:
+  value: 150
+clients.num_iterations:
+  value: 100
+clients.xgb.max_depth:
+  value: 7
+dataset:
+  value: adidas
+use_wandb:
+  value: true

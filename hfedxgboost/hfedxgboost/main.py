@@ -35,6 +35,10 @@ from hfedxgboost.utils import (
     run_centralized,
 )
 
+import sys, os
+print(">>> main.py usando:", sys.executable, "PID:", os.getpid(), flush=True)
+
+
 
 @hydra.main(config_path="conf", config_name="base", version_base=None)
 def main(cfg: DictConfig) -> None:

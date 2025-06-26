@@ -1,0 +1,17 @@
+wandb_version: 1
+
+clients:
+  value: cpusmall_5_clients
+clients.CNN.lr:
+  value: 0.0004671838887784113
+clients.n_estimators_client:
+  value: 150
+clients.num_iterations:
+  value: 100
+clients.xgb.max_depth:
+  value: 5
+dataset:
+  value:
+  - cpusmall
+use_wandb:
+  value: true

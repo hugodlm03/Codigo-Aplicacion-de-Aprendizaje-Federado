@@ -119,7 +119,7 @@ class FlClient(fl.client.Client):
         optimizer = torch.optim.Adam(
             self.net.parameters(), lr=self.config.clients.CNN.lr, betas=(0.5, 0.999)
         )
-        metric_fn = instantiate(self.config.dataset.task.metric.fn)
+        metric_fn = instantiate(self.config.dataset.task.metric.fn).to(self.device)
         criterion = instantiate(self.config.dataset.task.criterion)
         for _i, data in zip(range(num_iterations), trainloader):
             loss, metric_val, n_samples = self.train_one_loop(
@@ -149,7 +149,7 @@ class FlClient(fl.client.Client):
         """
         total_loss, total_result, n_samples = 0.0, 0.0, 0
         net.eval()
-        metric_fn = instantiate(self.config.dataset.task.metric.fn)
+        metric_fn = instantiate(self.config.dataset.task.metric.fn).to(self.device)
         criterion = instantiate(self.config.dataset.task.criterion)
         with torch.no_grad():
             for data in testloader:
