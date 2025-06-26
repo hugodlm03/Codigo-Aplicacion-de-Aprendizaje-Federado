@@ -1,0 +1,15 @@
+[2025-06-26 11:48:45,049][flwr][WARNING] - Both server and strategy were provided, ignoring strategy
+[2025-06-26 11:48:45,050][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+[2025-06-26 11:48:55,801][flwr][INFO] - Flower VCE: Ray initialized with resources: {'CPU': 12.0, 'GPU': 1.0, 'node:127.0.0.1': 1.0, 'object_store_memory': 693425356.0, 'memory': 1386850715.0, 'node:__internal_head__': 1.0}
+[2025-06-26 11:48:55,801][flwr][INFO] - Flower VCE: Resources for each Virtual Client: {'num_cpus': 1, 'num_gpus': 0.0}
+[2025-06-26 11:48:55,818][flwr][INFO] - Flower VCE: Creating VirtualClientEngineActorPool with 12 actors
+[2025-06-26 11:48:55,820][flwr][INFO] - Initializing global parameters
+[2025-06-26 11:48:55,820][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-26 11:49:04,913][flwr][INFO] - Received initial parameters from one random client
+[2025-06-26 11:49:04,913][flwr][INFO] - Evaluating initial parameters
+[2025-06-26 11:49:07,969][flwr][ERROR] - [WinError 206] El nombre del archivo o la extensión es demasiado largo: 'C:\\Users\\PC\\Desktop\\s.o.e\\Estudios\\U-4\\Segundo Cuatri\\TFG\\Codigo-Aplicacion de Aprendizaje Federado\\.venv\\lib\\site-packages\\pyarrow.libs'
+[2025-06-26 11:49:07,969][flwr][ERROR] - Your simulation crashed :(. This could be because of several reasons.The most common are: 
+	 > Your system couldn't fit a single VirtualClient: try lowering `client_resources`.
+	 > All the actors in your pool crashed. This could be because: 
+		 - You clients hit an out-of-memory (OOM) error and actors couldn't recover from it. Try launching your simulation with more generous `client_resources` setting (i.e. it seems {'num_cpus': 1, 'num_gpus': 0.0} is not enough for your workload). Use fewer concurrent actors. 
+		 - You were running a multi-node simulation and all worker nodes disconnected. The head node might still be alive but cannot accommodate any actor with resources: {'num_cpus': 1, 'num_gpus': 0.0}.

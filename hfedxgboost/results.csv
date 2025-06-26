@@ -1,0 +1,2 @@
+dataset_name,client_num,n_estimators_client,num_rounds,xgb_max_depth,cnn_lr,best_res,best_res_round_num,num_iterations
+adidas,28,25,10,6,0.001,inf,0,100

@@ -17,6 +17,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 from sklearn.datasets import load_svmlight_file
 from pathlib import Path
 import numpy as np
+from torch.utils.data import TensorDataset, DataLoader
 
 
 from hfedxgboost.dataset_preparation import (
@@ -26,6 +27,71 @@ from hfedxgboost.dataset_preparation import (
     train_test_split,
 )
 
+def load_and_divide_partitioned_dataset(
+    dataset_name: str,
+    pool_size: int,
+    batch_size: Union[int, str],
+    val_ratio: float = 0.0,
+) -> Tuple[
+    List[DataLoader],                   # trainloaders
+    List[Optional[DataLoader]],         # valloaders
+    DataLoader,                         # testloader
+    np.ndarray, np.ndarray,             # x_train, y_train
+    np.ndarray, np.ndarray              # x_test, y_test
+]:
+    """
+    Carga un dataset particionado en LIBSVM (silos + test) y devuelve:
+      - trainloaders, valloaders, testloader
+      - x_train, y_train, x_test, y_test
+
+    Asume que tienes en 
+      dataset/adidas_partitioned/ 
+    los ficheros:
+      train.libsvm, test.libsvm,
+      silo_train_00-XX.libsvm, silo_val_00-XX.libsvm
+    """
+    # Ajusta esta ruta a donde estén tus .libsvm
+    base_path = Path("hfedxgboost") / "dataset" / f"{dataset_name}_partitioned"
+
+
+    # 1) CARGO test completo
+    X_test, y_test = load_svmlight_file(str(base_path / "test.libsvm"))[:2]
+    X_test = X_test.toarray().astype(np.float32)
+    y_test = y_test.astype(np.float32)
+    test_ds = TensorDataset(torch.from_numpy(X_test), torch.from_numpy(y_test))
+    testloader = get_dataloader(test_ds, "test", batch_size)
+
+    # ————————————————————————————
+    # 2) CARGO SILOS uno a uno
+    # ————————————————————————————
+    trainloaders: List[DataLoader] = []
+    valloaders: List[Optional[DataLoader]] = []
+
+    for i in range(pool_size):
+        # ficheros de entrenamiento y validación de cada silo
+        X_tr, y_tr = load_svmlight_file(str(base_path / f"silo_train_{i:02d}.libsvm"))[:2]
+        X_val, y_val = load_svmlight_file(str(base_path / f"silo_val_{i:02d}.libsvm"))[:2]
+
+        X_tr = X_tr.toarray().astype(np.float32)
+        X_val = X_val.toarray().astype(np.float32)
+        y_tr = y_tr.astype(np.float32)
+        y_val = y_val.astype(np.float32)
+
+        ds_tr = TensorDataset(torch.from_numpy(X_tr), torch.from_numpy(y_tr))
+        ds_val = TensorDataset(torch.from_numpy(X_val), torch.from_numpy(y_val))
+
+        trainloaders.append(get_dataloader(ds_tr, "train", batch_size))
+
+        # si val_ratio==0 no necesitamos validación, pero aquí la devolvemos siempre
+        valloaders.append(get_dataloader(ds_val, "val", batch_size))
+
+
+    # 3) ARRANCO arrays completos de train (por si me hace falta que en verdad no)
+    X_full, y_full = load_svmlight_file(str(base_path / "train.libsvm"))[:2]
+    X_full = X_full.toarray().astype(np.float32)
+    y_full = y_full.astype(np.float32)
+
+    return trainloaders, valloaders, testloader, X_full, y_full, X_test, y_test
 
 def load_single_dataset(
     task_type: str, dataset_name: str, train_ratio: Optional[float] = 0.75

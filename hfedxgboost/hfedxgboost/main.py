@@ -7,6 +7,7 @@ model is going to be evaluated, etc. At the end, this script saves the results.
 import functools
 from typing import Dict, Union
 
+
 import flwr as fl
 import hydra
 import torch
@@ -19,7 +20,7 @@ from omegaconf import DictConfig, OmegaConf
 from torch.utils.data import TensorDataset
 
 from hfedxgboost.client import FlClient
-from hfedxgboost.dataset import divide_dataset_between_clients, load_single_dataset
+from hfedxgboost.dataset import divide_dataset_between_clients, load_single_dataset, load_and_divide_partitioned_dataset
 from hfedxgboost.server import FlServer, serverside_eval
 from hfedxgboost.utils import (
     CentralizedResultsWriter,
@@ -60,19 +61,33 @@ def main(cfg: DictConfig) -> None:
 
         print("Dataset Name", cfg.dataset.dataset_name)
         early_stopper = EarlyStop(cfg)
-        x_train, y_train, x_test, y_test = load_single_dataset(
-            cfg.dataset.task.task_type,
-            cfg.dataset.dataset_name,
-            train_ratio=cfg.dataset.train_ratio,
-        )
 
-        trainloaders, valloaders, testloader = divide_dataset_between_clients(
-            TensorDataset(torch.from_numpy(x_train), torch.from_numpy(y_train)),
-            TensorDataset(torch.from_numpy(x_test), torch.from_numpy(y_test)),
-            batch_size=cfg.batch_size,
-            pool_size=cfg.clients.client_num,
-            val_ratio=cfg.val_ratio,
-        )
+        if cfg.dataset.dataset_name.lower() == "adidas":
+            # ----------------------------------------------------
+            # Ruta FEDERADA para Adidas
+            trainloaders, valloaders, testloader, x_train, y_train, x_test, y_test = load_and_divide_partitioned_dataset(
+                dataset_name=cfg.dataset.dataset_name, 
+                pool_size=cfg.clients.client_num,
+                batch_size=cfg.batch_size,
+                val_ratio=cfg.val_ratio,
+            )
+        else:
+            # ----------------------------------------------------
+            # Ruta GENÉRICA (carga + particionado IID)
+            x_train, y_train, x_test, y_test = load_single_dataset(
+                cfg.dataset.task.task_type,
+                cfg.dataset.dataset_name,
+                train_ratio=cfg.dataset.train_ratio,
+            )
+
+            trainloaders, valloaders, testloader = divide_dataset_between_clients(
+                TensorDataset(torch.from_numpy(x_train), torch.from_numpy(y_train)),
+                TensorDataset(torch.from_numpy(x_test), torch.from_numpy(y_test)),
+                pool_size=cfg.clients.client_num,
+                batch_size=cfg.batch_size,
+                val_ratio=cfg.val_ratio,
+            )
+
         print(
             f"Data partitioned across {cfg.clients.client_num} clients"
             f" and {cfg.val_ratio} of local dataset reserved for validation."
