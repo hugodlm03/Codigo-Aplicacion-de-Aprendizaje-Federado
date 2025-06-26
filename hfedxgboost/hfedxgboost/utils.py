@@ -32,6 +32,7 @@ dataset_tasks = {
     "cpusmall": "REG",
     "space_ga": "REG",
     "YearPredictionMSD": "REG",
+    "adidas": "REG",
 }
 
 

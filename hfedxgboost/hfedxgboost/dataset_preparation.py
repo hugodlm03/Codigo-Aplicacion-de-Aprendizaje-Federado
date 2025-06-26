@@ -34,7 +34,31 @@ def download_data(dataset_name: Optional[str] = "cod-rna"):
     all_datasets_path = "./dataset"
     if dataset_name:
         dataset_path = os.path.join(all_datasets_path, dataset_name)
+    
     match dataset_name:
+
+        case "adidas":
+            # carpeta local: ./dataset/adidas_partitioned/
+            dataset_path = os.path.join(all_datasets_path, "adidas_partitioned")
+
+            if not os.path.exists(dataset_path):
+                raise FileNotFoundError(
+                    f"No se encuentra {dataset_path}. "
+                    "Ejecuta primero prepare_adidas.py para generar los .libsvm"
+                )
+
+            # 28 silos, val y test
+            client_files = sorted(
+                f for f in os.listdir(dataset_path) if f.startswith("silo_")
+            )
+
+            return_list = (
+                [os.path.join(dataset_path, "centralized.libsvm")] +
+                [os.path.join(dataset_path, "val.libsvm")] +
+                [os.path.join(dataset_path, "test.libsvm")] +
+                [os.path.join(dataset_path, f) for f in client_files]
+            )
+        
         case "a9a":
             if not os.path.exists(dataset_path):
                 os.makedirs(dataset_path)

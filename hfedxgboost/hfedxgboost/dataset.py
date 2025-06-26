@@ -14,6 +14,10 @@ from typing import List, Optional, Tuple, Union
 import torch
 from flwr.common import NDArray
 from torch.utils.data import DataLoader, Dataset, random_split
+from sklearn.datasets import load_svmlight_file
+from pathlib import Path
+import numpy as np
+
 
 from hfedxgboost.dataset_preparation import (
     datafiles_fusion,
@@ -42,6 +46,26 @@ def load_single_dataset(
             X_test (numpy array): The testing data features.
             y_test (numpy array): The testing data labels.
     """
+    if dataset_name == "adidas":
+        print("→ Cargando dataset Adidas desde archivos preprocesados")
+
+        base_path = Path("hfedxgboost") / "dataset" / "adidas_partitioned"
+        x_train, y_train = load_svmlight_file(str(base_path / "train.libsvm"))[:2]
+        x_test, y_test = load_svmlight_file(str(base_path / "test.libsvm"))[:2]
+
+
+        x_train = x_train.toarray().astype(np.float32)
+        x_test = x_test.toarray().astype(np.float32)
+        y_train = y_train.astype(np.float32)
+        y_test = y_test.astype(np.float32)
+
+        print("Feature dimension of the dataset:", x_train.shape[1])
+        print("Size of the trainset:", x_train.shape[0])
+        print("Size of the testset:", x_test.shape[0])
+
+        return x_train, y_train, x_test, y_test
+
+    # 🔁 Si NO es Adidas, seguimos con la lógica original
     datafiles_paths = download_data(dataset_name)
     X, Y = datafiles_fusion(datafiles_paths)
     x_train, y_train, x_test, y_test = train_test_split(X, Y, train_ratio=train_ratio)

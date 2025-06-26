@@ -1,0 +1,6 @@
+defaults:
+  - task: Regression
+
+dataset_name: "adidas"
+train_ratio: 0.80        
+early_stop_patience_rounds: 5

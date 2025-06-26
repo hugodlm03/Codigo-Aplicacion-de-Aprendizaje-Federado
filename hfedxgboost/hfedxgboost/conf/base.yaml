@@ -1,9 +1,4 @@
 ---
-
-hydra:
-  run:
-    dir: ${hydra:runtime.cwd}/hfedxgboost/outputs
-    
 defaults: 
   - dataset: cpusmall
   - clients: cpusmall_5_clients
@@ -58,4 +53,3 @@ run_experiment:
   min_fit_clients: 1
   fit_config:
     num_iterations: ${clients.num_iterations}
-
