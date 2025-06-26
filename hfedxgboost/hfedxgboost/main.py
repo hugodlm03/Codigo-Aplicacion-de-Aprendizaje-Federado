@@ -4,16 +4,20 @@ It includes processioning the dataset, instantiate strategy, specify how the glo
 model is going to be evaluated, etc. At the end, this script saves the results.
 """
 
+
+
 import functools
 from typing import Dict, Union
-
+from typing import cast
+from flwr.server.client_proxy import ClientProxy
+from flwr.server.client_manager import SimpleClientManager
 
 import flwr as fl
 import hydra
 import torch
 import wandb
 from flwr.common import Scalar
-from flwr.server.app import ServerConfig
+from flwr.server import ServerConfig
 from flwr.server.client_manager import SimpleClientManager
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
@@ -117,6 +121,7 @@ def main(cfg: DictConfig) -> None:
                 cfg=cfg,
                 testloader=testloader,
             ),
+            
         )
 
         print(
@@ -128,7 +133,6 @@ def main(cfg: DictConfig) -> None:
             """Create a federated learning client."""
             return FlClient(cfg, trainloaders[int(cid)], valloaders[int(cid)], cid)
 
-        # Start the simulation
         history = fl.simulation.start_simulation(
             client_fn=client_fn,
             server=FlServer(
@@ -140,9 +144,9 @@ def main(cfg: DictConfig) -> None:
             num_clients=cfg.clients.client_num,
             client_resources=cfg.client_resources,
             config=ServerConfig(num_rounds=cfg.run_experiment.num_rounds),
-            strategy=strategy,
         )
-
+        # 3) Ejecuta el fit síncrono
+        print(f"⏳ Empezando {cfg.run_experiment.num_rounds} rondas federadas…")
         print(history)
         writer = ResultsWriter(cfg)
         print(
@@ -151,6 +155,8 @@ def main(cfg: DictConfig) -> None:
             "best_res_round",
             writer.extract_best_res(history)[1],
         )
+        
+       
         create_res_csv("results.csv", writer.fields)
         writer.write_res("results.csv")
 

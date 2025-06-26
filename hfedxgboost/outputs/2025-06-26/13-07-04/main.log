@@ -1,0 +1,8 @@
+[2025-06-26 13:07:05,124][flwr][INFO] - Initializing global parameters
+[2025-06-26 13:07:05,130][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-26 13:07:05,290][flwr][INFO] - Received initial parameters from one random client
+[2025-06-26 13:07:05,290][flwr][INFO] - Evaluating initial parameters
+[2025-06-26 13:07:15,762][flwr][INFO] - initial parameters (loss, other metrics): 4981.391203853627, {'mse': tensor(158780.7344)}
+[2025-06-26 13:07:15,762][flwr][INFO] - FL starting
+[2025-06-26 13:07:15,762][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-26 13:07:15,770][flwr][DEBUG] - fit_round 1 received 0 results and 28 failures

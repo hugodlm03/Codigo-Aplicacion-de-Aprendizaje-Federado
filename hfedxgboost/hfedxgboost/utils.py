@@ -361,6 +361,8 @@ def test(
         # progress_bar = tqdm(testloader, desc="TEST") if log_progress else testloader
         for data in tqdm(testloader, desc="TEST") if log_progress else testloader:
             tree_outputs, labels = data[0].to(device), data[1].to(device)
+            if tree_outputs.ndim == 2:
+                tree_outputs = tree_outputs.unsqueeze(0)
             outputs = net(tree_outputs)
             total_loss += criterion(outputs, labels).item()
             n_samples += labels.size(0)
