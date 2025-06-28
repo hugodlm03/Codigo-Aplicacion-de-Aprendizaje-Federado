@@ -465,6 +465,43 @@ class ResultsWriter:
             "best_res_round_num",
             "num_iterations",
         ]
+        
+    def write_all_rounds(self, filename, history) -> None:
+        """Guarda todas las métricas por ronda en un CSV adicional."""
+        rows = []
+        for key in history.metrics_centralized.keys():
+            for round_num, value in history.metrics_centralized[key]:
+                row = [
+                    str(self.cfg.dataset.dataset_name),
+                    str(self.cfg.client_num),
+                    str(self.cfg.clients.n_estimators_client),
+                    str(self.cfg.run_experiment.num_rounds),
+                    str(self.cfg.clients.xgb.max_depth),
+                    str(self.cfg.clients.CNN.lr),
+                    round_num,
+                    value.item(),
+                    str(self.cfg.run_experiment.fit_config.num_iterations),
+                ]
+                rows.append(row)
+
+        fields = [
+            "dataset_name",
+            "client_num",
+            "n_estimators_client",
+            "num_rounds",
+            "xgb_max_depth",
+            "cnn_lr",
+            "round_num",
+            "result_value",
+            "num_iterations",
+        ]
+        file_exists = os.path.isfile(filename)
+        with open(filename, "a", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            if not file_exists:
+                writer.writerow(fields)
+            writer.writerows(rows)
+
 
     def extract_best_res(self, history) -> Tuple[float, int]:
         """Take the history & returns the best result and its corresponding round num.

@@ -163,6 +163,9 @@ def main(cfg: DictConfig) -> None:
        
         create_res_csv("results.csv", writer.fields)
         writer.write_res("results.csv")
+        
+        writer.write_all_rounds("mejor_configuracion_todas_las_rondas.csv", history)
+
 
 
 if __name__ == "__main__":

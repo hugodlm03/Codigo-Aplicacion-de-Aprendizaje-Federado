@@ -1,9 +1,0 @@
-- dataset=adidas
-- clients=adidas_28_clients
-- use_wandb=false
-- run_experiment.num_rounds=10
-- clients.client_num=28
-- clients.n_estimators_client=25
-- run_experiment.fit_config.num_iterations=100
-- clients.xgb.max_depth=4
-- clients.CNN.lr=0.0005

@@ -11,6 +11,12 @@ usage of wandb for fine-tuning purposes.
 import timeit
 from logging import DEBUG, INFO
 from typing import Dict, List, Optional, Tuple, Union
+import os
+import torch
+from pathlib import Path
+import os, torch
+from hydra.utils import get_original_cwd
+from flwr.common import parameters_to_ndarrays
 
 import flwr as fl
 import wandb
@@ -25,7 +31,6 @@ from flwr.server.strategy import Strategy
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader
 from xgboost import XGBClassifier, XGBRegressor
-
 from hfedxgboost.models import CNN
 from hfedxgboost.utils import EarlyStop, single_tree_preds_from_each_client, test
 
@@ -158,7 +163,32 @@ class FlServer(fl.server.Server):
             print("Server side aggregated", len(trees_aggregated), "trees.")
         else:
             print("Server side did not aggregate trees.")
-    
+
+        # --- GUARDADO MODELO GLOBAL ---
+        project_root = Path(__file__).resolve().parents[1]
+        base = project_root / "save_mejor_modelo" / "global"
+        trees_dir = base / "trees"
+        cnns_dir  = base / "cnns"
+        os.makedirs(trees_dir, exist_ok=True)
+        os.makedirs(cnns_dir, exist_ok=True)
+
+        # 1) Árboles agregados por cliente
+        if isinstance(trees_aggregated, list):
+            for tree_obj, cid in trees_aggregated:
+                tree_obj.save_model(str(trees_dir / f"tree_agg_client_{cid}_r{server_round}.json"))
+        else:
+            tree_obj, cid = trees_aggregated
+            tree_obj.save_model(str(trees_dir / f"tree_agg_client_{cid}_r{server_round}.json"))
+
+        # 2) CNN global reconstruida y guardada
+        global_cnn = CNN(self.cfg)
+        cnn_weights = parameters_to_ndarrays(cnn_aggregated)
+        global_cnn.set_weights(cnn_weights)
+        torch.save(
+            global_cnn.state_dict(),
+            str(cnns_dir / f"cnn_global_round_{server_round}.pt")
+        )
+        
         return (
             (cnn_aggregated, trees_aggregated),
             metrics_aggregated,

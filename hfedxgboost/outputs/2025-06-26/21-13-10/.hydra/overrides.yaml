@@ -1,7 +1,0 @@
-- clients=adidas_28_clients
-- clients.CNN.lr=0.00097386476851741
-- clients.n_estimators_client=800
-- clients.num_iterations=500
-- clients.xgb.max_depth=10
-- dataset=adidas
-- use_wandb=True

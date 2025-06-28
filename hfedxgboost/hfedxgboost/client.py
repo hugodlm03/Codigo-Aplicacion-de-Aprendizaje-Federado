@@ -5,7 +5,8 @@ to instantiate your client.
 """
 
 from typing import Any, Tuple
-
+import os
+import torch
 import flwr as fl
 import torch
 from flwr.common import (
@@ -22,10 +23,11 @@ from flwr.common import (
 from hydra.utils import instantiate
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader
-
+from hfedxgboost.models import fit_xgboost
+from hydra.utils import get_original_cwd
 from hfedxgboost.models import CNN, fit_xgboost
 from hfedxgboost.utils import single_tree_preds_from_each_client
-
+from pathlib import Path
 
 class FlClient(fl.client.Client):
     """Custom class contains the methods that the client need."""
@@ -49,6 +51,9 @@ class FlClient(fl.client.Client):
 
         # determine device
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+        # ── Contador de ronda ──
+        self.server_round = 0  
 
     def train_one_loop(self, data, optimizer, metric_fn, criterion):
         """Trains the neural network model for one loop iteration.
@@ -182,16 +187,36 @@ class FlClient(fl.client.Client):
                 A tuple containing either an XGBClassifier or XGBRegressor
                 object along with client's id.
         """
+        # 1) Ronda actual
+        round_id = self.server_round
         for dataset in self.trainloader_original:
             data, label = dataset[0], dataset[1]
 
         tree = fit_xgboost(
             self.config, self.config.dataset.task.task_type, data, label, 100
         )
+
+        # 3) guardamos el árbol por cliente y ronda
+        project_root = Path(__file__).resolve().parents[1]
+        trees_dir    = project_root / "save_mejor_modelo" / "client" / "trees"
+        cnn_dir  = project_root / "save_mejor_modelo" / "client" / "cnn"
+        os.makedirs(trees_dir, exist_ok=True)
+        os.makedirs(cnn_dir, exist_ok=True)
+        tree.save_model(str(trees_dir / f"tree_client_{self.cid}_r{round_id}.json"))
+        # Guarda la CNN (state_dict)
+        torch.save(
+            self.net.state_dict(),
+            f"{cnn_dir}/cnn_client_{self.cid}_r{round_id}.pt")
+
+        self.server_round += 1
+
         return GetParametersRes(
             status=Status(Code.OK, ""),
             parameters=ndarrays_to_parameters(self.net.get_weights()),
         ), (tree, int(self.cid))
+    
+
+        
 
     def fit(self, ins: FitIns) -> FitRes:
         """Trains a model using the given fit parameters.
@@ -208,7 +233,6 @@ class FlClient(fl.client.Client):
         """
         num_iterations = ins.config["num_iterations"]
         batch_size = ins.config["batch_size"]
-
         # set parmeters
         self.net.set_weights(parameters_to_ndarrays(ins.parameters[0]))  # type: ignore # noqa: E501 # pylint: disable=line-too-long
         aggregated_trees = ins.parameters[1]  # type: ignore # noqa: E501 # pylint: disable=line-too-long
