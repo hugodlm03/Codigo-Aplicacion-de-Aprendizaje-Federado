@@ -1,0 +1,9 @@
+[2025-06-27 00:21:02,983][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+[2025-06-27 00:21:09,707][flwr][INFO] - Flower VCE: Ray initialized with resources: {'accelerator_type:G': 1.0, 'object_store_memory': 2328048844.0, 'GPU': 1.0, 'CPU': 12.0, 'node:__internal_head__': 1.0, 'node:127.0.0.1': 1.0, 'memory': 4656097691.0}
+[2025-06-27 00:21:09,708][flwr][INFO] - Initializing global parameters
+[2025-06-27 00:21:09,708][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-27 00:21:12,846][flwr][INFO] - Received initial parameters from one random client
+[2025-06-27 00:21:12,847][flwr][INFO] - Evaluating initial parameters
+[2025-06-27 00:21:28,247][flwr][INFO] - initial parameters (loss, other metrics): 5085.865821999137, {'mse': tensor(162100.6875)}
+[2025-06-27 00:21:28,264][flwr][INFO] - FL starting
+[2025-06-27 00:21:28,265][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)

@@ -1,0 +1,55 @@
+[2025-06-27 22:15:09,384][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+[2025-06-27 22:15:17,758][flwr][INFO] - Flower VCE: Ray initialized with resources: {'node:__internal_head__': 1.0, 'GPU': 1.0, 'object_store_memory': 2083328409.0, 'CPU': 12.0, 'memory': 4166656820.0, 'node:127.0.0.1': 1.0, 'accelerator_type:G': 1.0}
+[2025-06-27 22:15:17,758][flwr][INFO] - Initializing global parameters
+[2025-06-27 22:15:17,758][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-27 22:15:22,588][flwr][INFO] - Received initial parameters from one random client
+[2025-06-27 22:15:22,588][flwr][INFO] - Evaluating initial parameters
+[2025-06-27 22:15:53,257][flwr][INFO] - initial parameters (loss, other metrics): 9424.543987478412, {'mse': tensor(300201.5938)}
+[2025-06-27 22:15:53,273][flwr][INFO] - FL starting
+[2025-06-27 22:15:53,274][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-27 22:21:25,728][flwr][DEBUG] - fit_round 1 received 28 results and 0 failures
+[2025-06-27 22:21:25,764][flwr][WARNING] - No fit_metrics_aggregation_fn provided
+[2025-06-27 22:22:00,613][flwr][INFO] - fit progress: (1, 1386.6518708171416, {'mse': tensor(44275.2812)}, 367.34047570000985)
+[2025-06-27 22:22:00,631][flwr][INFO] - evaluate_round 1: no clients selected, cancel
+[2025-06-27 22:22:00,633][flwr][DEBUG] - fit_round 2: strategy sampled 28 clients (out of 28)
+[2025-06-27 22:28:54,133][flwr][DEBUG] - fit_round 2 received 28 results and 0 failures
+[2025-06-27 22:29:28,742][flwr][INFO] - fit progress: (2, 1379.3858912861615, {'mse': tensor(44046.6680)}, 815.4702519999992)
+[2025-06-27 22:29:28,746][flwr][INFO] - evaluate_round 2: no clients selected, cancel
+[2025-06-27 22:29:28,746][flwr][DEBUG] - fit_round 3: strategy sampled 28 clients (out of 28)
+[2025-06-27 22:36:41,831][flwr][DEBUG] - fit_round 3 received 28 results and 0 failures
+[2025-06-27 22:37:17,895][flwr][INFO] - fit progress: (3, 1370.8767129479706, {'mse': tensor(43774.5664)}, 1284.6237656000012)
+[2025-06-27 22:37:17,898][flwr][INFO] - evaluate_round 3: no clients selected, cancel
+[2025-06-27 22:37:17,898][flwr][DEBUG] - fit_round 4: strategy sampled 28 clients (out of 28)
+[2025-06-27 22:44:13,280][flwr][DEBUG] - fit_round 4 received 28 results and 0 failures
+[2025-06-27 22:44:48,715][flwr][INFO] - fit progress: (4, 1377.6368395131692, {'mse': tensor(43981.2070)}, 1735.4426747000107)
+[2025-06-27 22:44:48,719][flwr][INFO] - evaluate_round 4: no clients selected, cancel
+[2025-06-27 22:44:48,720][flwr][DEBUG] - fit_round 5: strategy sampled 28 clients (out of 28)
+[2025-06-27 22:51:41,714][flwr][DEBUG] - fit_round 5 received 28 results and 0 failures
+[2025-06-27 22:52:16,653][flwr][INFO] - fit progress: (5, 1386.3313667152418, {'mse': tensor(44257.5234)}, 2183.3816313999996)
+[2025-06-27 22:52:16,657][flwr][INFO] - evaluate_round 5: no clients selected, cancel
+[2025-06-27 22:52:16,657][flwr][DEBUG] - fit_round 6: strategy sampled 28 clients (out of 28)
+[2025-06-27 22:59:08,130][flwr][DEBUG] - fit_round 6 received 28 results and 0 failures
+[2025-06-27 22:59:42,769][flwr][INFO] - fit progress: (6, 1365.2384806104274, {'mse': tensor(43600.3633)}, 2629.4953958000115)
+[2025-06-27 22:59:42,772][flwr][INFO] - evaluate_round 6: no clients selected, cancel
+[2025-06-27 22:59:42,772][flwr][DEBUG] - fit_round 7: strategy sampled 28 clients (out of 28)
+[2025-06-27 23:06:37,674][flwr][DEBUG] - fit_round 7 received 28 results and 0 failures
+[2025-06-27 23:07:13,001][flwr][INFO] - fit progress: (7, 1356.8714172468697, {'mse': tensor(43331.8242)}, 3079.727243100002)
+[2025-06-27 23:07:13,002][flwr][INFO] - evaluate_round 7: no clients selected, cancel
+[2025-06-27 23:07:13,004][flwr][DEBUG] - fit_round 8: strategy sampled 28 clients (out of 28)
+[2025-06-27 23:14:25,391][flwr][DEBUG] - fit_round 8 received 28 results and 0 failures
+[2025-06-27 23:15:01,994][flwr][INFO] - fit progress: (8, 1355.7432072403928, {'mse': tensor(43291.4766)}, 3548.7201369000104)
+[2025-06-27 23:15:02,001][flwr][INFO] - evaluate_round 8: no clients selected, cancel
+[2025-06-27 23:15:02,002][flwr][DEBUG] - fit_round 9: strategy sampled 28 clients (out of 28)
+[2025-06-27 23:23:12,828][flwr][DEBUG] - fit_round 9 received 28 results and 0 failures
+[2025-06-27 23:23:48,708][flwr][INFO] - fit progress: (9, 1348.023589634607, {'mse': tensor(43045.2188)}, 4075.4345638000086)
+[2025-06-27 23:23:48,709][flwr][INFO] - evaluate_round 9: no clients selected, cancel
+[2025-06-27 23:23:48,709][flwr][DEBUG] - fit_round 10: strategy sampled 28 clients (out of 28)
+[2025-06-27 23:30:59,888][flwr][DEBUG] - fit_round 10 received 28 results and 0 failures
+[2025-06-27 23:31:33,632][flwr][INFO] - fit progress: (10, 1346.3072778362477, {'mse': tensor(42990.2734)}, 4540.3589718)
+[2025-06-27 23:31:33,635][flwr][INFO] - evaluate_round 10: no clients selected, cancel
+[2025-06-27 23:31:33,637][flwr][INFO] - FL finished in 4540.3632282000035
+[2025-06-27 23:31:33,652][flwr][INFO] - app_fit: losses_distributed []
+[2025-06-27 23:31:33,653][flwr][INFO] - app_fit: metrics_distributed_fit {}
+[2025-06-27 23:31:33,654][flwr][INFO] - app_fit: metrics_distributed {}
+[2025-06-27 23:31:33,655][flwr][INFO] - app_fit: losses_centralized [(0, 9424.543987478412), (1, 1386.6518708171416), (2, 1379.3858912861615), (3, 1370.8767129479706), (4, 1377.6368395131692), (5, 1386.3313667152418), (6, 1365.2384806104274), (7, 1356.8714172468697), (8, 1355.7432072403928), (9, 1348.023589634607), (10, 1346.3072778362477)]
+[2025-06-27 23:31:33,661][flwr][INFO] - app_fit: metrics_centralized {'mse': [(0, tensor(300201.5938)), (1, tensor(44275.2812)), (2, tensor(44046.6680)), (3, tensor(43774.5664)), (4, tensor(43981.2070)), (5, tensor(44257.5234)), (6, tensor(43600.3633)), (7, tensor(43331.8242)), (8, tensor(43291.4766)), (9, tensor(43045.2188)), (10, tensor(42990.2734))]}

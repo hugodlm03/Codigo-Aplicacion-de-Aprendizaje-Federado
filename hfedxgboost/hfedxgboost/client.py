@@ -249,6 +249,8 @@ class FlClient(fl.client.Client):
             "examples processed",
         )
 
+
+            
         # Return training information: model, number of examples processed and metrics
         return FitRes(
             status=Status(Code.OK, ""),

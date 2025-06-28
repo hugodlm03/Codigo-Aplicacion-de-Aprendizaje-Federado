@@ -1,0 +1,22 @@
+2025-06-26 21:13:11,016 INFO    MainThread:1656 [wandb_setup.py:_flush():81] Current SDK version is 0.20.1
+2025-06-26 21:13:11,016 INFO    MainThread:1656 [wandb_setup.py:_flush():81] Configure stats pid to 1656
+2025-06-26 21:13:11,016 INFO    MainThread:1656 [wandb_setup.py:_flush():81] Loading settings from C:\Users\PC\.config\wandb\settings
+2025-06-26 21:13:11,017 INFO    MainThread:1656 [wandb_setup.py:_flush():81] Loading settings from C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\wandb\settings
+2025-06-26 21:13:11,017 INFO    MainThread:1656 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2025-06-26 21:13:11,017 INFO    MainThread:1656 [wandb_init.py:setup_run_log_directory():703] Logging user logs to C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\wandb\run-20250626_211311-71geniwb\logs\debug.log
+2025-06-26 21:13:11,028 INFO    MainThread:1656 [wandb_init.py:setup_run_log_directory():704] Logging internal logs to C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\wandb\run-20250626_211311-71geniwb\logs\debug-internal.log
+2025-06-26 21:13:11,028 INFO    MainThread:1656 [wandb_init.py:init():831] calling init triggers
+2025-06-26 21:13:11,028 INFO    MainThread:1656 [wandb_init.py:init():836] wandb.init called with sweep_config: {'clients': 'adidas_28_clients', 'clients.CNN.lr': 0.00097386476851741, 'clients.n_estimators_client': 800, 'clients.num_iterations': 500, 'clients.xgb.max_depth': 10, 'dataset': 'adidas', 'use_wandb': True}
+config: {'_wandb': {}}
+2025-06-26 21:13:11,028 INFO    MainThread:1656 [wandb_init.py:init():872] starting backend
+2025-06-26 21:13:11,376 INFO    MainThread:1656 [wandb_init.py:init():875] sending inform_init request
+2025-06-26 21:13:11,409 INFO    MainThread:1656 [wandb_init.py:init():883] backend started and connected
+2025-06-26 21:13:11,410 INFO    MainThread:1656 [wandb_run.py:_config_callback():1358] config_cb None None {'clients': 'adidas_28_clients', 'clients.CNN.lr': 0.00097386476851741, 'clients.n_estimators_client': 800, 'clients.num_iterations': 500, 'clients.xgb.max_depth': 10, 'dataset': 'adidas', 'use_wandb': True}
+2025-06-26 21:13:11,410 INFO    MainThread:1656 [wandb_init.py:init():956] updated telemetry
+2025-06-26 21:13:11,464 INFO    MainThread:1656 [wandb_init.py:init():980] communicating run to backend with 90.0 second timeout
+2025-06-26 21:13:11,933 INFO    MainThread:1656 [wandb_init.py:init():1032] starting run threads in backend
+2025-06-26 21:13:12,117 INFO    MainThread:1656 [wandb_run.py:_console_start():2453] atexit reg
+2025-06-26 21:13:12,118 INFO    MainThread:1656 [wandb_run.py:_redirect():2301] redirect: wrap_raw
+2025-06-26 21:13:12,118 INFO    MainThread:1656 [wandb_run.py:_redirect():2370] Wrapping output streams.
+2025-06-26 21:13:12,118 INFO    MainThread:1656 [wandb_run.py:_redirect():2393] Redirects installed.
+2025-06-26 21:13:12,121 INFO    MainThread:1656 [wandb_init.py:init():1078] run started, returning control to user process

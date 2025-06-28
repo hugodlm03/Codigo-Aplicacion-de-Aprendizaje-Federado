@@ -1,7 +1,7 @@
 ---
 defaults: 
-  - dataset: cpusmall
-  - clients: cpusmall_5_clients
+  - dataset: adidas
+  - clients: adidas_28_clients
   - wandb: default
 
 centralized: False

@@ -568,3 +568,28 @@ class CentralizedResultsWriter:
         with open(filename, "a") as csvfile:
             csvwriter = csv.writer(csvfile)
             csvwriter.writerow(row)
+
+
+def save_cnn_model(model: CNN, path: str) -> None:
+    """
+    Guarda el estado (state_dict) de un modelo CNN a disco.
+    """
+    torch.save(model.state_dict(), path)
+    print(f"CNN guardado en {path}")
+
+def load_cnn_model(cfg, path: str, device: torch.device = None) -> CNN:
+    """
+    Carga un modelo CNN desde disco.
+    - cfg: Hydra DictConfig que usa el constructor de CNN.
+    - path: ruta al .pt con state_dict.
+    - device: dispositivo en que cargar (por defecto CPU o GPU).
+    """
+    net = CNN(cfg)
+    if device is None:
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    state_dict = torch.load(path, map_location=device)
+    net.load_state_dict(state_dict)
+    net.to(device)
+    net.eval()
+    print(f"CNN cargado desde {path}")
+    return net

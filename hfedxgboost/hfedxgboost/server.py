@@ -158,7 +158,7 @@ class FlServer(fl.server.Server):
             print("Server side aggregated", len(trees_aggregated), "trees.")
         else:
             print("Server side did not aggregate trees.")
-
+    
         return (
             (cnn_aggregated, trees_aggregated),
             metrics_aggregated,

@@ -1,0 +1,50 @@
+{
+  "os":  "Windows-10-10.0.26100-SP0",
+  "python":  "CPython 3.10.11",
+  "startedAt":  "2025-06-26T19:13:11.409612Z",
+  "args":  [
+    "clients=adidas_28_clients",
+    "clients.CNN.lr=0.00097386476851741",
+    "clients.n_estimators_client=800",
+    "clients.num_iterations=500",
+    "clients.xgb.max_depth=10",
+    "dataset=adidas",
+    "use_wandb=True"
+  ],
+  "program":  "-m hfedxgboost.run_hydra",
+  "git":  {
+    "remote":  "https://github.com/hugodlm03/Codigo-Aplicacion-de-Aprendizaje-Federado.git",
+    "commit":  "3bea90376ef8efe1e6fe8a483cdb20f836e8a83c"
+  },
+  "email":  "hugodelamomartinez@gmail.com",
+  "root":  "C:\\Users\\PC\\Desktop\\Codigo-Aplicacion-de-Aprendizaje-Federado\\hfedxgboost",
+  "host":  "DESKTOP-51CQI9V",
+  "executable":  "C:\\Users\\PC\\Desktop\\Codigo-Aplicacion-de-Aprendizaje-Federado\\.venv\\Scripts\\python.exe",
+  "cpu_count":  6,
+  "cpu_count_logical":  12,
+  "gpu":  "NVIDIA GeForce RTX 2060",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "1015835561984",
+      "used":  "837006454784"
+    }
+  },
+  "memory":  {
+    "total":  "17002713088"
+  },
+  "cpu":  {
+    "count":  6,
+    "countLogical":  12
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 2060",
+      "memoryTotal":  "6442450944",
+      "cudaCores":  1920,
+      "architecture":  "Turing",
+      "uuid":  "GPU-2e143b60-4071-c78a-550e-e301670aec01"
+    }
+  ],
+  "cudaVersion":  "12.9"
+}

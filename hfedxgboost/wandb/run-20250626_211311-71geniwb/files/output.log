@@ -1,0 +1,157 @@
+Dataset Name adidas
+Data partitioned across 28 clients and 0.0 of local dataset reserved for validation.
+Local Client 0 XGBoost Training Results: 6.198044
+Local Client 0 XGBoost Testing Results: 56502.664062
+Local Client 1 XGBoost Training Results: 4.890692
+Local Client 1 XGBoost Testing Results: 42990.691406
+Local Client 2 XGBoost Training Results: 13.400924
+Local Client 2 XGBoost Testing Results: 45110.097656
+Local Client 3 XGBoost Training Results: 5.729089
+Local Client 3 XGBoost Testing Results: 57420.148438
+Local Client 4 XGBoost Training Results: 7.419484
+Local Client 4 XGBoost Testing Results: 45208.234375
+Local Client 5 XGBoost Training Results: 4.467785
+Local Client 5 XGBoost Testing Results: 41723.351562
+Local Client 6 XGBoost Training Results: 4.758209
+Local Client 6 XGBoost Testing Results: 45056.808594
+Local Client 7 XGBoost Training Results: 6.403576
+Local Client 7 XGBoost Testing Results: 39516.605469
+Local Client 8 XGBoost Training Results: 4.649228
+Local Client 8 XGBoost Testing Results: 56096.574219
+Local Client 9 XGBoost Training Results: 5.046793
+Local Client 9 XGBoost Testing Results: 38744.761719
+Local Client 10 XGBoost Training Results: 5.112157
+Local Client 10 XGBoost Testing Results: 46844.949219
+Local Client 11 XGBoost Training Results: 6.389872
+Local Client 11 XGBoost Testing Results: 67300.210938
+Local Client 12 XGBoost Training Results: 6.987248
+Local Client 12 XGBoost Testing Results: 46003.136719
+Local Client 13 XGBoost Training Results: 6.010177
+Local Client 13 XGBoost Testing Results: 33745.242188
+Local Client 14 XGBoost Training Results: 5.502817
+Local Client 14 XGBoost Testing Results: 54207.570312
+Local Client 15 XGBoost Training Results: 4.785975
+Local Client 15 XGBoost Testing Results: 44144.503906
+Local Client 16 XGBoost Training Results: 4.366124
+Local Client 16 XGBoost Testing Results: 36136.277344
+Local Client 17 XGBoost Training Results: 4.952493
+Local Client 17 XGBoost Testing Results: 53420.121094
+Local Client 18 XGBoost Training Results: 6.917517
+Local Client 18 XGBoost Testing Results: 40670.808594
+Local Client 19 XGBoost Training Results: 7.024314
+Local Client 19 XGBoost Testing Results: 98695.960938
+Local Client 20 XGBoost Training Results: 5.043375
+Local Client 20 XGBoost Testing Results: 55985.363281
+Local Client 21 XGBoost Training Results: 6.616038
+Local Client 21 XGBoost Testing Results: 43638.304688
+Local Client 22 XGBoost Training Results: 7.927547
+Local Client 22 XGBoost Testing Results: 42215.238281
+Local Client 23 XGBoost Training Results: 5.007597
+Local Client 23 XGBoost Testing Results: 36562.687500
+Local Client 24 XGBoost Training Results: 5.069399
+Local Client 24 XGBoost Testing Results: 43145.222656
+Local Client 25 XGBoost Training Results: 5.020805
+Local Client 25 XGBoost Testing Results: 40909.230469
+Local Client 26 XGBoost Training Results: 27.338436
+Local Client 26 XGBoost Testing Results: 60289.921875
+Local Client 27 XGBoost Training Results: 4.491760
+Local Client 27 XGBoost Testing Results: 30197.847656
+FL experiment configured for 10 rounds with 28 client in the pool.
+INFO flwr 2025-06-26 21:13:24,001 | app.py:146 | Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+[2025-06-26 21:13:24,001][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+2025-06-26 21:13:29,008	INFO worker.py:1771 -- Started a local Ray instance.
+INFO flwr 2025-06-26 21:13:31,589 | app.py:180 | Flower VCE: Ray initialized with resources: {'CPU': 12.0, 'memory': 3776313755.0, 'node:127.0.0.1': 1.0, 'GPU': 1.0, 'node:__internal_head__': 1.0, 'accelerator_type:G': 1.0, 'object_store_memory': 1888156876.0}
+[2025-06-26 21:13:31,589][flwr][INFO] - Flower VCE: Ray initialized with resources: {'CPU': 12.0, 'memory': 3776313755.0, 'node:127.0.0.1': 1.0, 'GPU': 1.0, 'node:__internal_head__': 1.0, 'accelerator_type:G': 1.0, 'object_store_memory': 1888156876.0}
+INFO flwr 2025-06-26 21:13:31,591 | server.py:227 | Initializing global parameters
+[2025-06-26 21:13:31,591][flwr][INFO] - Initializing global parameters
+INFO flwr 2025-06-26 21:13:31,591 | server.py:341 | Requesting initial parameters from one random client
+[2025-06-26 21:13:31,591][flwr][INFO] - Requesting initial parameters from one random client
+INFO flwr 2025-06-26 21:13:35,012 | server.py:345 | Received initial parameters from one random client
+[2025-06-26 21:13:35,012][flwr][INFO] - Received initial parameters from one random client
+INFO flwr 2025-06-26 21:13:35,013 | server.py:230 | Evaluating initial parameters
+[2025-06-26 21:13:35,013][flwr][INFO] - Evaluating initial parameters
+{} 0
+Evaluation on the server: test_loss=1491.4176, test_,mse,=47636.5391
+INFO flwr 2025-06-26 21:23:18,533 | server.py:233 | initial parameters (loss, other metrics): 1491.417642554512, {'mse': tensor(47636.5391)}
+[2025-06-26 21:23:18,533][flwr][INFO] - initial parameters (loss, other metrics): 1491.417642554512, {'mse': tensor(47636.5391)}
+INFO flwr 2025-06-26 21:23:18,551 | server.py:243 | FL starting
+[2025-06-26 21:23:18,551][flwr][INFO] - FL starting
+Configuring round 1
+DEBUG flwr 2025-06-26 21:23:18,554 | server.py:120 | fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-26 21:23:18,554][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[36m(launch_and_fit pid=28300)[0m Client 2: only had its own tree
+[36m(launch_and_fit pid=19516)[0m Client 13: only had its own tree
+[36m(launch_and_fit pid=23764)[0m Client 3: only had its own tree
+[36m(launch_and_fit pid=2540)[0m Client 18 : training for 500 iterations/updates
+[36m(launch_and_fit pid=23992)[0m Client 1: only had its own tree[32m [repeated 9x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+[36m(launch_and_fit pid=2540)[0m Client 18: training round complete, 66 examples processed
+[36m(launch_and_fit pid=2540)[0m Client 5: only had its own tree
+[36m(launch_and_fit pid=28300)[0m Client 2 : training for 500 iterations/updates
+[36m(launch_and_fit pid=28300)[0m Client 2: training round complete, 7 examples processed
+[36m(launch_and_fit pid=28300)[0m Client 26: only had its own tree
+[36m(launch_and_fit pid=19300)[0m Client 7 : training for 500 iterations/updates
+[36m(launch_and_fit pid=19300)[0m Client 7: training round complete, 81 examples processed
+[36m(launch_and_fit pid=23764)[0m Client 3 : training for 500 iterations/updates
+[36m(launch_and_fit pid=19300)[0m Client 24: only had its own tree
+[36m(launch_and_fit pid=23764)[0m Client 3: training round complete, 76 examples processed
+[36m(launch_and_fit pid=15244)[0m Client 9 : training for 500 iterations/updates
+[36m(launch_and_fit pid=23764)[0m Client 0: only had its own tree
+[36m(launch_and_fit pid=15244)[0m Client 9: training round complete, 230 examples processed
+[36m(launch_and_fit pid=19516)[0m Client 13 : training for 500 iterations/updates[32m [repeated 3x across cluster][0m
+[36m(launch_and_fit pid=15244)[0m Client 23: only had its own tree
+[36m(launch_and_fit pid=19516)[0m Client 13: training round complete, 325 examples processed[32m [repeated 3x across cluster][0m
+[36m(launch_and_fit pid=14928)[0m Client 11 : training for 500 iterations/updates[32m [repeated 3x across cluster][0m
+[36m(launch_and_fit pid=19516)[0m Client 12: only had its own tree[32m [repeated 3x across cluster][0m
+[36m(launch_and_fit pid=14928)[0m Client 11: training round complete, 92 examples processed[32m [repeated 3x across cluster][0m
+[36m(launch_and_fit pid=16632)[0m Client 22: only had its own tree[32m [repeated 2x across cluster][0m
+[36m(launch_and_fit pid=23048)[0m Client 17 : training for 500 iterations/updates
+[36m(launch_and_fit pid=23048)[0m Client 17: training round complete, 228 examples processed
+[36m(launch_and_fit pid=14928)[0m Client 6: only had its own tree
+[36m(launch_and_fit pid=23048)[0m Client 25: only had its own tree
+[36m(launch_and_fit pid=2540)[0m Client 5 : training for 500 iterations/updates
+[36m(launch_and_fit pid=2540)[0m Client 5: training round complete, 468 examples processed
+[36m(launch_and_fit pid=2540)[0m Client 21: only had its own tree
+[36m(launch_and_fit pid=28300)[0m Client 26 : training for 500 iterations/updates
+[36m(launch_and_fit pid=28300)[0m Client 26: training round complete, 55 examples processed
+[36m(launch_and_fit pid=28300)[0m Client 16: only had its own tree
+[36m(launch_and_fit pid=19300)[0m Client 24 : training for 500 iterations/updates
+[36m(launch_and_fit pid=19300)[0m Client 24: training round complete, 177 examples processed
+[36m(launch_and_fit pid=19300)[0m Client 14: only had its own tree
+[36m(launch_and_fit pid=15244)[0m Client 23 : training for 500 iterations/updates[32m [repeated 2x across cluster][0m
+[36m(launch_and_fit pid=23764)[0m Client 0: training round complete, 83 examples processed
+[36m(launch_and_fit pid=23764)[0m Client 10: only had its own tree
+[36m(launch_and_fit pid=15244)[0m Client 23: training round complete, 205 examples processed
+[36m(launch_and_fit pid=4596)[0m Client 19 : training for 500 iterations/updates
+[36m(launch_and_fit pid=4596)[0m Client 19: training round complete, 34 examples processed
+[36m(launch_and_fit pid=8972)[0m Client 8 : training for 500 iterations/updates
+[36m(launch_and_fit pid=19516)[0m Client 12: training round complete, 39 examples processed[32m [repeated 2x across cluster][0m
+[36m(launch_and_fit pid=16632)[0m Client 22 : training for 500 iterations/updates[32m [repeated 2x across cluster][0m
+[36m(launch_and_fit pid=14928)[0m Client 6: training round complete, 468 examples processed[32m [repeated 2x across cluster][0m
+[36m(launch_and_fit pid=23992)[0m Client 27 : training for 500 iterations/updates[32m [repeated 2x across cluster][0m
+[36m(launch_and_fit pid=2540)[0m Client 21: training round complete, 77 examples processed[32m [repeated 3x across cluster][0m
+[36m(launch_and_fit pid=2540)[0m Client 21 : training for 500 iterations/updates[32m [repeated 2x across cluster][0m
+[36m(launch_and_fit pid=19300)[0m Client 14: training round complete, 156 examples processed
+[36m(launch_and_fit pid=19300)[0m Client 14 : training for 500 iterations/updates
+[36m(launch_and_fit pid=28300)[0m Client 16 : training for 500 iterations/updates
+[36m(launch_and_fit pid=28300)[0m Client 16: training round complete, 406 examples processed
+DEBUG flwr 2025-06-26 22:49:16,264 | server.py:138 | fit_round 1 received 28 results and 0 failures
+[2025-06-26 22:49:16,264][flwr][DEBUG] - fit_round 1 received 28 results and 0 failures
+WARNING flwr 2025-06-26 22:49:16,306 | strategy.py:77 | No fit_metrics_aggregation_fn provided
+[2025-06-26 22:49:16,306][flwr][WARNING] - No fit_metrics_aggregation_fn provided
+Server side aggregated 28 trees.
+{} 1
+Evaluation on the server: test_loss=2706.9126, test_,mse,=86364.9297
+INFO flwr 2025-06-26 23:09:31,359 | server.py:193 | fit progress: (1, 2706.9125897290587, {'mse': tensor(86364.9297)}, 6372.806906499998)
+[2025-06-26 23:09:31,359][flwr][INFO] - fit progress: (1, 2706.9125897290587, {'mse': tensor(86364.9297)}, 6372.806906499998)
+New best loss value achieved, loss 2706.9125897290587 metric value 86364.9296875
+INFO flwr 2025-06-26 23:09:31,382 | server.py:297 | evaluate_round 1: no clients selected, cancel
+[2025-06-26 23:09:31,382][flwr][INFO] - evaluate_round 1: no clients selected, cancel
+Configuring round 2
+DEBUG flwr 2025-06-26 23:09:31,385 | server.py:120 | fit_round 2: strategy sampled 28 clients (out of 28)
+[2025-06-26 23:09:31,385][flwr][DEBUG] - fit_round 2: strategy sampled 28 clients (out of 28)
+[36m(launch_and_fit pid=2540)[0m Client 6: received 28 trees
+[36m(launch_and_fit pid=23764)[0m Client 10 : training for 500 iterations/updates
+[36m(launch_and_fit pid=23764)[0m Client 10: training round complete, 128 examples processed
+[36m(launch_and_fit pid=2540)[0m Client 6 : training for 500 iterations/updates
+[36m(launch_and_fit pid=16632)[0m Client 17: received 28 trees[32m [repeated 11x across cluster][0m
+[36m(launch_and_fit pid=2540)[0m Client 6: training round complete, 468 examples processed

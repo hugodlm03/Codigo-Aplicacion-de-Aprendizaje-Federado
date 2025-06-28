@@ -1,0 +1,393 @@
+[2025-06-27 20:45:15,587][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+[2025-06-27 20:45:23,345][flwr][INFO] - Flower VCE: Ray initialized with resources: {'accelerator_type:G': 1.0, 'object_store_memory': 1349095833.0, 'node:__internal_head__': 1.0, 'memory': 2698191668.0, 'CPU': 12.0, 'node:127.0.0.1': 1.0, 'GPU': 1.0}
+[2025-06-27 20:45:23,345][flwr][INFO] - Initializing global parameters
+[2025-06-27 20:45:23,345][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-27 20:45:27,316][flwr][INFO] - Received initial parameters from one random client
+[2025-06-27 20:45:27,316][flwr][INFO] - Evaluating initial parameters
+[2025-06-27 20:45:59,093][flwr][INFO] - initial parameters (loss, other metrics): 6628.573550841969, {'mse': tensor(211210.5156)}
+[2025-06-27 20:45:59,120][flwr][INFO] - FL starting
+[2025-06-27 20:45:59,121][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-27 20:48:03,852][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=2904, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=2904, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:48:54,210][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=2776, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=2776, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:08,714][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=31968, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=31968, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:11,602][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=31120, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=31120, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:12,662][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=11816, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=11816, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:16,032][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=19364, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=19364, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:17,593][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=20204, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=20204, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:18,511][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=34552, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=34552, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:19,111][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=32812, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=32812, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:19,899][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=19892, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=19892, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:21,349][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=25148, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=25148, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.
+[2025-06-27 20:49:23,712][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=5660, ip=127.0.0.1)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\regression\mse.py", line 105, in update
+    self.sum_squared_error += sum_squared_error
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+The above exception was the direct cause of the following exception:
+
+[36mray::launch_and_fit()[39m (pid=5660, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1890, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1991, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 242, in fit
+    train_loss, train_result, num_examples = self.train(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 125, in train
+    loss, metric_val, n_samples = self.train_one_loop(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 79, in train_one_loop
+    metric_val = metric_fn(outputs, labels.type(torch.int))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torch\nn\modules\module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 315, in forward
+    self._forward_cache = self._forward_reduce_state_update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 384, in _forward_reduce_state_update
+    self.update(*args, **kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\torchmetrics\metric.py", line 552, in wrapped_func
+    raise RuntimeError(
+RuntimeError: Encountered different devices in metric calculation (see stacktrace for details). This could be due to the metric class not being on the same device as input. Instead of `metric=MeanSquaredError(...)` try to do `metric=MeanSquaredError(...).to(device)` where device corresponds to the device of the input.

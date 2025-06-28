@@ -1,0 +1,47 @@
+[2025-06-27 20:36:26,970][flwr][INFO] - Starting Flower simulation, config: ServerConfig(num_rounds=10, round_timeout=None)
+[2025-06-27 20:36:35,336][flwr][INFO] - Flower VCE: Ray initialized with resources: {'GPU': 1.0, 'accelerator_type:G': 1.0, 'CPU': 12.0, 'node:127.0.0.1': 1.0, 'node:__internal_head__': 1.0, 'memory': 2110616372.0, 'object_store_memory': 1055308185.0}
+[2025-06-27 20:36:35,336][flwr][INFO] - Initializing global parameters
+[2025-06-27 20:36:35,337][flwr][INFO] - Requesting initial parameters from one random client
+[2025-06-27 20:36:40,070][flwr][INFO] - Received initial parameters from one random client
+[2025-06-27 20:36:40,070][flwr][INFO] - Evaluating initial parameters
+[2025-06-27 20:37:07,551][flwr][INFO] - initial parameters (loss, other metrics): 1375.2619488072107, {'mse': tensor(43914.8711)}
+[2025-06-27 20:37:07,567][flwr][INFO] - FL starting
+[2025-06-27 20:37:07,569][flwr][DEBUG] - fit_round 1: strategy sampled 28 clients (out of 28)
+[2025-06-27 20:39:42,735][flwr][ERROR] - [36mray::launch_and_fit()[39m (pid=22136, ip=127.0.0.1)
+  File "python\ray\_raylet.pyx", line 1896, in ray._raylet.execute_task
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\simulation\ray_transport\ray_client_proxy.py", line 148, in launch_and_fit
+    return maybe_call_fit(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\flwr\client\client.py", line 184, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 289, in fit
+    parameters=self.get_parameters(ins.config),
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\client.py", line 203, in get_parameters
+    tree = fit_xgboost(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\hfedxgboost\hfedxgboost\models.py", line 51, in fit_xgboost
+    tree.fit(x_train, y_train)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\core.py", line 729, in inner_f
+    return func(**kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\sklearn.py", line 1222, in fit
+    train_dmatrix, evals = _wrap_evaluation_matrices(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\sklearn.py", line 628, in _wrap_evaluation_matrices
+    train_dmatrix = create_dmatrix(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\sklearn.py", line 1142, in _create_dmatrix
+    return DMatrix(**kwargs, nthread=self.n_jobs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\core.py", line 729, in inner_f
+    return func(**kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\core.py", line 897, in __init__
+    self.set_info(
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\core.py", line 729, in inner_f
+    return func(**kwargs)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\core.py", line 961, in set_info
+    self.set_label(label)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\core.py", line 1099, in set_label
+    dispatch_meta_backend(self, label, "label", "float")
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\data.py", line 1629, in dispatch_meta_backend
+    _meta_from_numpy(array, name, dtype, handle)
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\data.py", line 1533, in _meta_from_numpy
+    _check_call(_LIB.XGDMatrixSetInfoFromInterface(handle, c_str(field), interface_str))
+  File "C:\Users\PC\Desktop\Codigo-Aplicacion-de-Aprendizaje-Federado\.venv\lib\site-packages\xgboost\core.py", line 310, in _check_call
+    raise XGBoostError(py_str(_LIB.XGBGetLastError()))
+xgboost.core.XGBoostError: [20:39:41] C:\actions-runner\_work\xgboost\xgboost\src\data\array_interface.cu:44: Check failed: err == cudaGetLastError() (0 vs. 46) :
+[2025-06-27 20:42:19,227][flwr][DEBUG] - fit_round 1 received 27 results and 1 failures
