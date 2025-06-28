@@ -4,12 +4,13 @@ They are not directly relevant to  the other (more FL specific) python modules. 
 example, you may define here things like: loading a model from a checkpoint, saving
 results, plotting.
 """
-
+from pathlib import Path
 import csv
 import math
 import os
 import os.path
 from typing import List, Optional, Tuple, Union
+import joblib
 
 import numpy as np
 import torch
@@ -103,6 +104,15 @@ def run_single_exp(
         task_type, dataset_name, train_ratio=config.dataset.train_ratio
     )
     tree = fit_xgboost(config, task_type, x_train, y_train, n_estimators)
+
+    # Guarda el modelo entrenado
+    model_dir = Path("saved_models/centralized")
+    model_dir.mkdir(parents=True, exist_ok=True)
+    model_path = model_dir / f"xgb_{dataset_name}_centralized.json"
+    tree.save_model(str(model_path))
+    print(f"✅ Modelo centralizado guardado en: {model_path}")
+
+
     preds_train = tree.predict(x_train)
     result_train = evaluate(task_type, y_train, preds_train)
     preds_test = tree.predict(x_test)
